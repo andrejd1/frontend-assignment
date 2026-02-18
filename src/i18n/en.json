@@ -8,6 +8,21 @@
     "link": "see API docs"
   },
   "auth": {
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "passwordConfirm": "Confirm password",
+    "passwordConfirmPlaceholder": "Confirm your password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "fieldMandatory": "This field is mandatory.",
+    "loading": "Please wait...",
+    "login": {
+      "welcomeHeading": "It's good to have you back!",
+      "welcomeParagraph": "Welcome to our secure portal! To access the full functionality of our app, kindly provide your credentials below. Your privacy is our priority.",
+      "link": "Log in",
+      "noAccount": "Don't have an account?"
+    },
     "register": {
       "title": "Create account",
       "submit": "Create account",
