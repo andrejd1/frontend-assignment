@@ -1,12 +1,12 @@
 import {Helmet} from 'react-helmet-async';
 import {useTranslation} from 'react-i18next';
-import {Welcome} from './pages/Welcome';
+import {Outlet, createRootRoute} from '@tanstack/react-router';
+import {AuthProvider} from '../context/AuthContext';
 
-function App() {
+function RootComponent() {
   const {i18n, t} = useTranslation();
-
   return (
-    <>
+    <AuthProvider>
       <Helmet
         titleTemplate={`%s - ${t('app.title')}`}
         defaultTitle={t('app.title')}
@@ -14,13 +14,11 @@ function App() {
       >
         <meta name="description" content={t('app.description')} />
       </Helmet>
-
-      {/*
-       * start from here
-       */}
-      <Welcome />
-    </>
+      <Outlet />
+    </AuthProvider>
   );
 }
 
-export default App;
+export const Route = createRootRoute({
+  component: RootComponent,
+});

@@ -1,6 +1,20 @@
 {
-  "app.title": "Carvago Frontend Assignment",
-  "app.description": "Assignment in React.js for developers who want to join our team.",
-  "welcome.message": "Welcome to Carvago Front-End Assignment",
-  "welcome.link": "see API docs"
+  "app": {
+    "title": "Carvago Frontend Assignment",
+    "description": "Assignment in React.js for developers who want to join our team."
+  },
+  "welcome": {
+    "message": "Welcome to Carvago Front-End Assignment",
+    "link": "see API docs"
+  },
+  "auth": {
+    "register": {
+      "title": "Create account",
+      "submit": "Create account",
+      "link": "Sign up",
+      "hasAccount": "Already have an account?"
+    },
+    "logout": "Log out",
+    "loggedIn": "Logged in as {{username}}"
+  }
 }
