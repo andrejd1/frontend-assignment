@@ -19,15 +19,15 @@ const variantStyles = {
     _hover: { backgroundColor: 'fill-brand-hover' },
   },
   ghost: {
-    backgroundColor: 'transparent',
-    color: 'fill-brand',
-    _hover: { backgroundColor: 'fill-gray-hover' },
+    backgroundColor: 'fill-gray',
+    color: 'text-primary',
+    _hover: { backgroundColor: 'fill-white-hover' },
   },
 } as const
 
 const sizeStyles = {
   sm: { height: '32px', padding: '0 12px', fontSize: 'text.small' },
-  md: { height: '40px', padding: '0 20px', fontSize: 'text.base' },
+  md: { height: '40px', padding: '0 20px', fontSize: 'text.small' },
   lg: { height: '48px', padding: '0 24px', fontSize: 'text.base' },
 } as const
 

@@ -46,5 +46,15 @@
   "menu": {
     "settings": "Settings",
     "logout": "Log out"
+  },
+  "task": {
+    "newTask": "New task",
+    "taskName": "Task name",
+    "taskNamePlaceholder": "Enter task name",
+    "descriptionOptional": "Description (Optional)",
+    "descriptionPlaceholder": "Add a description\u2026",
+    "discard": "Discard",
+    "createTask": "Create task",
+    "fieldMandatory": "This field is mandatory."
   }
 }
