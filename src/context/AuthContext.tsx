@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import {useNavigate} from '@tanstack/react-router';
+import { setUnauthorizedHandler } from '../api/client';
 import {
   clearTokens,
   getCurrentUser,
@@ -107,6 +108,15 @@ export function AuthProvider({children}: {children: ReactNode}) {
     setUser(null);
     setAuthError(null);
     navigate({to: '/login', replace: true});
+  }, [navigate]);
+
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      clearTokens();
+      setUser(null);
+      setAuthError(null);
+      navigate({to: '/login', replace: true});
+    });
   }, [navigate]);
 
   const clearAuthError = useCallback(() => setAuthError(null), []);
