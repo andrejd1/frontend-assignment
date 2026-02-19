@@ -2,6 +2,7 @@ import {Helmet} from 'react-helmet-async';
 import {useTranslation} from 'react-i18next';
 import {Outlet, createRootRoute} from '@tanstack/react-router';
 import {AuthProvider} from '../context/AuthContext';
+import {NotFound} from '../pages/NotFound';
 
 function RootComponent() {
   const {i18n, t} = useTranslation();
@@ -21,4 +22,5 @@ function RootComponent() {
 
 export const Route = createRootRoute({
   component: RootComponent,
+  notFoundComponent: NotFound,
 });

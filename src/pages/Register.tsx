@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Heading,
   HStack,
   Image,
@@ -18,6 +17,8 @@ import { useMemo, useState } from 'react'
 import logoUrl from '../assets/logo.svg'
 import showPasswordIcon from '../assets/icons/icon-show.svg'
 import hidePasswordIcon from '../assets/icons/icon.hide.svg'
+import { Button } from '../components'
+import { spacing } from '../design-system/spacing'
 import { useAuth } from '../context/AuthContext'
 import {
   createRegisterSchema,
@@ -58,10 +59,10 @@ export function Register() {
       flexDirection="column"
       alignItems="center"
       backgroundColor="fill-gray"
-      padding="6"
-      paddingTop="10"
+      padding={spacing.page}
+      paddingTop={spacing.pageTop}
     >
-      <Box display="flex" alignItems="center" gap="3" marginBottom="10">
+      <Box display="flex" alignItems="center" gap={spacing.inlineTight} marginBottom={spacing.pageTop}>
         <Image src={logoUrl} alt="" width="37px" height="32px" />
         <Text
           fontSize="24px"
@@ -81,11 +82,11 @@ export function Register() {
         <Box
           backgroundColor="fill-white"
           borderRadius="12px"
-          padding="10"
+          padding={spacing.card}
           boxShadow="0 1px 3px rgba(0,0,0,0.08)"
         >
-        <VStack gap="6" align="stretch">
-          <Box marginBottom="2">
+        <VStack gap={spacing.stack} align="stretch">
+          <Box marginBottom={spacing.footer}>
             <Heading
               size="2xl"
               color="text-primary"
@@ -106,7 +107,7 @@ export function Register() {
             <Text
               fontSize="text.small"
               color="text-secondary"
-              marginBottom="1"
+              marginBottom={spacing.label}
               fontWeight="text.base"
             >
               <Box as="span" color="text-danger" aria-hidden="true">* </Box>
@@ -142,7 +143,7 @@ export function Register() {
                       <Text
                         color="text-danger"
                         fontSize="text.small"
-                        marginTop="1"
+                        marginTop={spacing.label}
                         role="alert"
                       >
                         {fieldState.error.message}
@@ -158,7 +159,7 @@ export function Register() {
             <Text
               fontSize="text.small"
               color="text-secondary"
-              marginBottom="1"
+              marginBottom={spacing.label}
               fontWeight="text.base"
             >
               <Box as="span" color="text-danger" aria-hidden="true">* </Box>
@@ -230,7 +231,7 @@ export function Register() {
                       <Text
                         color="text-danger"
                         fontSize="text.small"
-                        marginTop="1"
+                        marginTop={spacing.label}
                         role="alert"
                       >
                         {fieldState.error.message}
@@ -242,11 +243,11 @@ export function Register() {
             />
           </Box>
 
-          <Box marginBottom="6">
+          <Box marginBottom={spacing.field}>
             <Text
               fontSize="text.small"
               color="text-secondary"
-              marginBottom="1"
+              marginBottom={spacing.label}
               fontWeight="text.base"
             >
               <Box as="span" color="text-danger" aria-hidden="true">* </Box>
@@ -324,7 +325,7 @@ export function Register() {
                       <Text
                         color="text-danger"
                         fontSize="text.small"
-                        marginTop="1"
+                        marginTop={spacing.label}
                         role="alert"
                       >
                         {fieldState.error.message}
@@ -336,22 +337,13 @@ export function Register() {
             />
           </Box>
 
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            backgroundColor="fill-brand"
-            color="text-white"
-            borderRadius="100px"
-            height="40px"
-            width="100%"
-            _hover={{ backgroundColor: 'fill-brand-hover' }}
-          >
+          <Button type="submit" disabled={isSubmitting} fullWidth>
             {isSubmitting ? (
               <Box as="span" color="text-white">
                 {t('auth.loading')}
               </Box>
             ) : (
-              <HStack gap="2" color="text-white">
+              <HStack gap={spacing.inline} color="text-white">
                 {t('auth.register.submit')}
                 <RiArrowRightLine />
               </HStack>
@@ -362,7 +354,7 @@ export function Register() {
             textAlign="center"
             fontSize="text.small"
             color="text-secondary"
-            marginTop="2"
+            marginTop={spacing.footer}
           >
             {t('auth.register.hasAccount')}{' '}
             <Link to="/login">

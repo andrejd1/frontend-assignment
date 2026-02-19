@@ -31,5 +31,10 @@
     },
     "logout": "Log out",
     "loggedIn": "Logged in as {{username}}"
+  },
+  "notFound": {
+    "title": "Oops!",
+    "subtitle": "Looks like you're lost. The page you're looking for doesn't exist.",
+    "goBack": "Go back"
   }
 }

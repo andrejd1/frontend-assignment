@@ -84,6 +84,8 @@ const theme = createSystem(defaultConfig, {
           backgroundColor: '#0F62FE',
           color: '#FFFFFF',
           borderRadius: '100px',
+          height: '40px',
+          _hover: {backgroundColor: 'fill-brand-hover'},
         },
       },
     },
