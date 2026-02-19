@@ -1,12 +1,12 @@
 import {createFileRoute, Navigate} from '@tanstack/react-router';
-import {Welcome} from '../pages/Welcome';
+import {Dashboard} from '../pages/Dashboard';
 import {useAuth} from '../context/AuthContext';
 
 function HomeComponent() {
   const {isAuthenticated, isLoading} = useAuth();
   if (isLoading) return null;
   if (!isAuthenticated) return <Navigate to="/login" />;
-  return <Welcome />;
+  return <Dashboard />;
 }
 
 export const Route = createFileRoute('/')({

@@ -52,9 +52,9 @@ export function Login() {
       alignItems="center"
       backgroundColor="fill-gray"
       padding={spacing.page}
-      paddingTop={spacing.pageTop}
+      paddingTop={spacing.pageVertical}
     >
-      <Box display="flex" alignItems="center" gap={spacing.inlineTight} marginBottom={spacing.pageTop}>
+      <Box display="flex" alignItems="center" gap={spacing.inlineTight} marginBottom={spacing.pageVertical}>
         <Image src={logoUrl} alt="" width="37px" height="32px" />
         <Text
           fontSize="24px"

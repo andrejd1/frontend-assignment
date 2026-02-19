@@ -6,7 +6,7 @@ export const spacing = {
   /** Page horizontal padding */
   page: 6,
   /** Page top padding */
-  pageTop: 10,
+  pageVertical: 10,
   /** Card/surface inner padding */
   card: 10,
   /** Between form sections */

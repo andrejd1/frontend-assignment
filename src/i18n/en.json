@@ -36,5 +36,15 @@
     "title": "Oops!",
     "subtitle": "Looks like you're lost. The page you're looking for doesn't exist.",
     "goBack": "Go back"
+  },
+  "dashboard": {
+    "greeting": "Hello {{name}}!",
+    "addTask": "Add task +",
+    "emptyTitle": "You are amazing!",
+    "emptyMessage": "There is no more task to do."
+  },
+  "menu": {
+    "settings": "Settings",
+    "logout": "Log out"
   }
 }
