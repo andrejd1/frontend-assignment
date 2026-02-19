@@ -1,13 +1,13 @@
-import { Button as ChakraButton, type ButtonProps as ChakraButtonProps } from '@chakra-ui/react'
-import { forwardRef } from 'react'
+import {Button as ChakraButton, type ButtonProps as ChakraButtonProps} from '@chakra-ui/react';
+import {forwardRef} from 'react';
 
 export interface MenuButtonProps extends Omit<ChakraButtonProps, 'variant' | 'size'> {
   /** Whether the menu item is disabled */
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
-  ({ disabled, children, ...props }, ref) => (
+  ({disabled, children, ...props}, ref) => (
     <ChakraButton
       ref={ref}
       type="button"
@@ -26,8 +26,8 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
       borderRadius="4px"
       cursor={disabled ? 'not-allowed' : 'pointer'}
       opacity={disabled ? 0.7 : 1}
-      _hover={disabled ? undefined : { backgroundColor: 'fill-gray' }}
-      _active={disabled ? undefined : { backgroundColor: 'fill-gray-hover' }}
+      _hover={disabled ? undefined : {backgroundColor: 'fill-gray'}}
+      _active={disabled ? undefined : {backgroundColor: 'fill-gray-hover'}}
       _disabled={{
         color: 'text-tertiary',
         opacity: 0.7,
@@ -40,6 +40,6 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
       {children}
     </ChakraButton>
   )
-)
+);
 
-MenuButton.displayName = 'MenuButton'
+MenuButton.displayName = 'MenuButton';

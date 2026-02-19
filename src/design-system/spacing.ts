@@ -25,4 +25,4 @@ export const spacing = {
   inlineTight: 3,
   /** Small vertical gap (e.g. between form footer and link) */
   footer: 2,
-} as const
+} as const;

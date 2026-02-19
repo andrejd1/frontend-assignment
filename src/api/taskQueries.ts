@@ -4,7 +4,7 @@ import {
   useQueryClient,
   type UseMutationOptions,
   type UseQueryOptions,
-} from '@tanstack/react-query'
+} from '@tanstack/react-query';
 import {
   createTask,
   deleteTask as deleteTaskApi,
@@ -12,15 +12,15 @@ import {
   setTaskCompleted,
   updateTask as updateTaskApi,
   type CreateTaskPayload,
-} from './tasks'
+} from './tasks';
 
 export const taskKeys = {
   all: ['tasks'] as const,
   list: () => [...taskKeys.all, 'list'] as const,
-}
+};
 
 export function useTaskListQuery(
-  options?: { enabled?: boolean } & Omit<
+  options?: {enabled?: boolean} & Omit<
     UseQueryOptions<Awaited<ReturnType<typeof fetchTaskList>>>,
     'queryKey' | 'queryFn'
   >
@@ -29,7 +29,7 @@ export function useTaskListQuery(
     queryKey: taskKeys.list(),
     queryFn: fetchTaskList,
     ...options,
-  })
+  });
 }
 
 export function useCreateTaskMutation(
@@ -40,65 +40,58 @@ export function useCreateTaskMutation(
     unknown
   >
 ) {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createTask,
     ...options,
     onSuccess: (data, variables, context, mutation) => {
-      queryClient.invalidateQueries({ queryKey: taskKeys.list() })
-      options?.onSuccess?.(data, variables, context, mutation)
+      queryClient.invalidateQueries({queryKey: taskKeys.list()});
+      options?.onSuccess?.(data, variables, context, mutation);
     },
-  })
+  });
 }
 
 export function useUpdateTaskMutation(
   options?: UseMutationOptions<
     void,
     Error,
-    { id: string; updates: { title?: string; description?: string } },
+    {id: string; updates: {title?: string; description?: string}},
     unknown
   >
 ) {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, updates }) => updateTaskApi(id, updates),
+    mutationFn: ({id, updates}) => updateTaskApi(id, updates),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
-      queryClient.invalidateQueries({ queryKey: taskKeys.list() })
-      options?.onSuccess?.(data, variables, context, mutation)
+      queryClient.invalidateQueries({queryKey: taskKeys.list()});
+      options?.onSuccess?.(data, variables, context, mutation);
     },
-  })
+  });
 }
 
-export function useDeleteTaskMutation(
-  options?: UseMutationOptions<void, Error, string, unknown>
-) {
-  const queryClient = useQueryClient()
+export function useDeleteTaskMutation(options?: UseMutationOptions<void, Error, string, unknown>) {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteTaskApi,
     ...options,
     onSuccess: (data, variables, context, mutation) => {
-      queryClient.invalidateQueries({ queryKey: taskKeys.list() })
-      options?.onSuccess?.(data, variables, context, mutation)
+      queryClient.invalidateQueries({queryKey: taskKeys.list()});
+      options?.onSuccess?.(data, variables, context, mutation);
     },
-  })
+  });
 }
 
 export function useToggleTaskMutation(
-  options?: UseMutationOptions<
-    void,
-    Error,
-    { id: string; completed: boolean },
-    unknown
-  >
+  options?: UseMutationOptions<void, Error, {id: string; completed: boolean}, unknown>
 ) {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, completed }) => setTaskCompleted(id, completed),
+    mutationFn: ({id, completed}) => setTaskCompleted(id, completed),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
-      queryClient.invalidateQueries({ queryKey: taskKeys.list() })
-      options?.onSuccess?.(data, variables, context, mutation)
+      queryClient.invalidateQueries({queryKey: taskKeys.list()});
+      options?.onSuccess?.(data, variables, context, mutation);
     },
-  })
+  });
 }

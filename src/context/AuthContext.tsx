@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import {useNavigate} from '@tanstack/react-router';
-import { setUnauthorizedHandler } from '../api/client';
+import {setUnauthorizedHandler} from '../api/client';
 import {
   clearTokens,
   getCurrentUser,

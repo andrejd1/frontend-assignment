@@ -1,4 +1,4 @@
-import axios, { type InternalAxiosRequestConfig } from 'axios';
+import axios, {type InternalAxiosRequestConfig} from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001';
 
@@ -40,7 +40,7 @@ async function refreshAccessToken(): Promise<string | null> {
   const refreshToken = localStorage.getItem(AUTH_KEYS.REFRESH);
   if (!refreshToken) return null;
   refreshPromise = axios
-    .post<{ accessToken: string }>(`${API_BASE_URL}/api/refresh-token`, {
+    .post<{accessToken: string}>(`${API_BASE_URL}/api/refresh-token`, {
       refreshToken,
     })
     .then((res) => {

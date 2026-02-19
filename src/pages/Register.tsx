@@ -1,42 +1,30 @@
-import {
-  Box,
-  Heading,
-  HStack,
-  Image,
-  Input,
-  InputGroup,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
-import { RiArrowRightLine } from 'react-icons/ri'
-import { Link } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMemo, useState } from 'react'
-import logoUrl from '../assets/logo.svg'
-import showPasswordIcon from '../assets/icons/icon-show.svg'
-import hidePasswordIcon from '../assets/icons/icon.hide.svg'
-import { Button } from '../components'
-import { spacing } from '../design-system/spacing'
-import { useAuth } from '../context/AuthContext'
-import {
-  createRegisterSchema,
-  type RegisterFormValues,
-} from '../schemas/auth'
+import {Box, Heading, HStack, Image, Input, InputGroup, Text, VStack} from '@chakra-ui/react';
+import {RiArrowRightLine} from 'react-icons/ri';
+import {Link} from '@tanstack/react-router';
+import {useTranslation} from 'react-i18next';
+import {Controller, useForm} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useMemo, useState} from 'react';
+import logoUrl from '../assets/logo.svg';
+import showPasswordIcon from '../assets/icons/icon-show.svg';
+import hidePasswordIcon from '../assets/icons/icon.hide.svg';
+import {Button} from '../components';
+import {spacing} from '../design-system/spacing';
+import {useAuth} from '../context/AuthContext';
+import {createRegisterSchema, type RegisterFormValues} from '../schemas/auth';
 
 export function Register() {
-  const { t } = useTranslation()
-  const { register: doRegister, authError, clearAuthError } = useAuth()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
+  const {t} = useTranslation();
+  const {register: doRegister, authError, clearAuthError} = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-  const schema = useMemo(() => createRegisterSchema(t), [t])
+  const schema = useMemo(() => createRegisterSchema(t), [t]);
 
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: {isSubmitting},
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -45,12 +33,12 @@ export function Register() {
       passwordConfirm: '',
     },
     mode: 'onSubmit',
-  })
+  });
 
   const onSubmit = async (data: RegisterFormValues) => {
-    clearAuthError()
-    await doRegister({ username: data.username, password: data.password })
-  }
+    clearAuthError();
+    await doRegister({username: data.username, password: data.password});
+  };
 
   return (
     <Box
@@ -62,23 +50,19 @@ export function Register() {
       padding={spacing.page}
       paddingTop={spacing.pageVertical}
     >
-      <Box display="flex" alignItems="center" gap={spacing.inlineTight} marginBottom={spacing.pageVertical}>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={spacing.inlineTight}
+        marginBottom={spacing.pageVertical}
+      >
         <Image src={logoUrl} alt="" width="37px" height="32px" />
-        <Text
-          fontSize="24px"
-          fontWeight="600"
-          color="text-primary"
-          letterSpacing="-0.02em"
-        >
+        <Text fontSize="24px" fontWeight="600" color="text-primary" letterSpacing="-0.02em">
           Zentask
         </Text>
       </Box>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        style={{ width: '100%', maxWidth: '560px' }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} noValidate style={{width: '100%', maxWidth: '560px'}}>
         <Box
           backgroundColor="fill-white"
           borderRadius="12px"
@@ -87,12 +71,7 @@ export function Register() {
         >
           <VStack gap={spacing.stack} align="stretch">
             <Box marginBottom={spacing.footer}>
-              <Heading
-                size="2xl"
-                color="text-primary"
-                fontWeight="heading.1"
-                lineHeight="1.3"
-              >
+              <Heading size="2xl" color="text-primary" fontWeight="heading.1" lineHeight="1.3">
                 {t('auth.register.title')}
               </Heading>
             </Box>
@@ -110,14 +89,16 @@ export function Register() {
                 marginBottom={spacing.label}
                 fontWeight="text.base"
               >
-                <Box as="span" color="text-danger" aria-hidden="true">* </Box>
+                <Box as="span" color="text-danger" aria-hidden="true">
+                  *{' '}
+                </Box>
                 {t('auth.username')}
               </Text>
               <Controller
                 name="username"
                 control={control}
-                render={({ field, fieldState }) => {
-                  const hasError = Boolean(fieldState.error)
+                render={({field, fieldState}) => {
+                  const hasError = Boolean(fieldState.error);
                   return (
                     <>
                       <Input
@@ -131,9 +112,7 @@ export function Register() {
                         borderRadius="6px"
                         height="40px"
                         _focus={{
-                          borderColor: hasError
-                            ? 'border-danger'
-                            : 'border-brand',
+                          borderColor: hasError ? 'border-danger' : 'border-brand',
                           boxShadow: hasError
                             ? '0 0 0 1px var(--chakra-colors-border-danger)'
                             : '0 0 0 1px var(--chakra-colors-border-brand)',
@@ -150,7 +129,7 @@ export function Register() {
                         </Text>
                       )}
                     </>
-                  )
+                  );
                 }}
               />
             </Box>
@@ -162,14 +141,16 @@ export function Register() {
                 marginBottom={spacing.label}
                 fontWeight="text.base"
               >
-                <Box as="span" color="text-danger" aria-hidden="true">* </Box>
+                <Box as="span" color="text-danger" aria-hidden="true">
+                  *{' '}
+                </Box>
                 {t('auth.password')}
               </Text>
               <Controller
                 name="password"
                 control={control}
-                render={({ field, fieldState }) => {
-                  const hasError = Boolean(fieldState.error)
+                render={({field, fieldState}) => {
+                  const hasError = Boolean(fieldState.error);
                   return (
                     <>
                       <InputGroup
@@ -177,9 +158,7 @@ export function Register() {
                           <button
                             type="button"
                             onClick={() => setShowPassword((p) => !p)}
-                            aria-label={
-                              showPassword ? 'Hide password' : 'Show password'
-                            }
+                            aria-label={showPassword ? 'Hide password' : 'Show password'}
                             style={{
                               padding: 4,
                               paddingRight: '8px',
@@ -193,11 +172,7 @@ export function Register() {
                             }}
                           >
                             <Image
-                              src={
-                                showPassword
-                                  ? hidePasswordIcon
-                                  : showPasswordIcon
-                              }
+                              src={showPassword ? hidePasswordIcon : showPasswordIcon}
                               alt=""
                               width="16px"
                               height="16px"
@@ -212,15 +187,11 @@ export function Register() {
                           placeholder={t('auth.passwordPlaceholder')}
                           autoComplete="new-password"
                           backgroundColor="fill-white"
-                          borderColor={
-                            hasError ? 'border-danger' : 'border-gray'
-                          }
+                          borderColor={hasError ? 'border-danger' : 'border-gray'}
                           borderRadius="6px"
                           height="40px"
                           _focus={{
-                            borderColor: hasError
-                              ? 'border-danger'
-                              : 'border-brand',
+                            borderColor: hasError ? 'border-danger' : 'border-brand',
                             boxShadow: hasError
                               ? '0 0 0 1px var(--chakra-colors-border-danger)'
                               : '0 0 0 1px var(--chakra-colors-border-brand)',
@@ -238,7 +209,7 @@ export function Register() {
                         </Text>
                       )}
                     </>
-                  )
+                  );
                 }}
               />
             </Box>
@@ -250,28 +221,24 @@ export function Register() {
                 marginBottom={spacing.label}
                 fontWeight="text.base"
               >
-                <Box as="span" color="text-danger" aria-hidden="true">* </Box>
+                <Box as="span" color="text-danger" aria-hidden="true">
+                  *{' '}
+                </Box>
                 {t('auth.passwordConfirm')}
               </Text>
               <Controller
                 name="passwordConfirm"
                 control={control}
-                render={({ field, fieldState }) => {
-                  const hasError = Boolean(fieldState.error)
+                render={({field, fieldState}) => {
+                  const hasError = Boolean(fieldState.error);
                   return (
                     <>
                       <InputGroup
                         endElement={
                           <button
                             type="button"
-                            onClick={() =>
-                              setShowPasswordConfirm((p) => !p)
-                            }
-                            aria-label={
-                              showPasswordConfirm
-                                ? 'Hide password'
-                                : 'Show password'
-                            }
+                            onClick={() => setShowPasswordConfirm((p) => !p)}
+                            aria-label={showPasswordConfirm ? 'Hide password' : 'Show password'}
                             style={{
                               padding: 4,
                               paddingRight: '8px',
@@ -285,11 +252,7 @@ export function Register() {
                             }}
                           >
                             <Image
-                              src={
-                                showPasswordConfirm
-                                  ? hidePasswordIcon
-                                  : showPasswordIcon
-                              }
+                              src={showPasswordConfirm ? hidePasswordIcon : showPasswordIcon}
                               alt=""
                               width="16px"
                               height="16px"
@@ -300,21 +263,15 @@ export function Register() {
                         <Input
                           {...field}
                           id="register-password-confirm"
-                          type={
-                            showPasswordConfirm ? 'text' : 'password'
-                          }
+                          type={showPasswordConfirm ? 'text' : 'password'}
                           placeholder={t('auth.passwordConfirmPlaceholder')}
                           autoComplete="new-password"
                           backgroundColor="fill-white"
-                          borderColor={
-                            hasError ? 'border-danger' : 'border-gray'
-                          }
+                          borderColor={hasError ? 'border-danger' : 'border-gray'}
                           borderRadius="6px"
                           height="40px"
                           _focus={{
-                            borderColor: hasError
-                              ? 'border-danger'
-                              : 'border-brand',
+                            borderColor: hasError ? 'border-danger' : 'border-brand',
                             boxShadow: hasError
                               ? '0 0 0 1px var(--chakra-colors-border-danger)'
                               : '0 0 0 1px var(--chakra-colors-border-brand)',
@@ -332,7 +289,7 @@ export function Register() {
                         </Text>
                       )}
                     </>
-                  )
+                  );
                 }}
               />
             </Box>
@@ -362,7 +319,7 @@ export function Register() {
                   as="span"
                   color="fill-brand"
                   fontWeight="text.alternative"
-                  _hover={{ textDecoration: 'underline' }}
+                  _hover={{textDecoration: 'underline'}}
                 >
                   {t('auth.login.link')}
                 </Box>
@@ -372,5 +329,5 @@ export function Register() {
         </Box>
       </form>
     </Box>
-  )
+  );
 }

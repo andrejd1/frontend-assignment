@@ -1,13 +1,13 @@
-import { Box, Heading, Image, Text, VStack } from '@chakra-ui/react'
-import { Link } from '@tanstack/react-router'
-import logoUrl from '../assets/logo.svg'
-import { RiArrowLeftLine } from 'react-icons/ri'
-import { useTranslation } from 'react-i18next'
-import { Button } from '../components'
-import { spacing } from '../design-system/spacing'
+import {Box, Heading, Image, Text, VStack} from '@chakra-ui/react';
+import {Link} from '@tanstack/react-router';
+import logoUrl from '../assets/logo.svg';
+import {RiArrowLeftLine} from 'react-icons/ri';
+import {useTranslation} from 'react-i18next';
+import {Button} from '../components';
+import {spacing} from '../design-system/spacing';
 
 export function NotFound() {
-  const { t } = useTranslation()
+  const {t} = useTranslation();
 
   return (
     <Box
@@ -19,24 +19,22 @@ export function NotFound() {
       backgroundColor="fill-gray"
       padding={spacing.page}
     >
-      <VStack gap={spacing.stackCard} align="center" maxWidth="640px" backgroundColor="fill-white" borderRadius="12px" padding={spacing.card}>
+      <VStack
+        gap={spacing.stackCard}
+        align="center"
+        maxWidth="640px"
+        backgroundColor="fill-white"
+        borderRadius="12px"
+        padding={spacing.card}
+      >
         <Box display="flex" alignItems="center" gap={spacing.inlineTight}>
           <Image src={logoUrl} alt="" width="37px" height="32px" />
-          <Text
-            fontSize="24px"
-            fontWeight="600"
-            color="text-primary"
-            letterSpacing="-0.02em"
-          >
+          <Text fontSize="24px" fontWeight="600" color="text-primary" letterSpacing="-0.02em">
             Zentask
           </Text>
         </Box>
 
-        <Heading
-          fontSize="heading.1"
-          color="text-secondary"
-          textAlign="center"
-        >
+        <Heading fontSize="heading.1" color="text-secondary" textAlign="center">
           {t('notFound.title')}
         </Heading>
 
@@ -52,5 +50,5 @@ export function NotFound() {
         </Button>
       </VStack>
     </Box>
-  )
+  );
 }

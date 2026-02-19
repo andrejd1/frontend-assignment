@@ -1,61 +1,40 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  HStack,
-  Image,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
-import { Link } from '@tanstack/react-router'
-import logoUrl from '../assets/logoBig.svg'
-import { Button, DashboardHeader, TaskRow } from '../components'
-import { spacing } from '../design-system/spacing'
-import {
-  useDeleteTaskMutation,
-  useTaskListQuery,
-  useToggleTaskMutation,
-} from '../api/taskQueries'
-import { useAuth } from '../context/AuthContext'
-import { displayName, formatDashboardDate } from '../utils'
+import {Box, Flex, Heading, HStack, Image, Text, VStack} from '@chakra-ui/react';
+import {useTranslation} from 'react-i18next';
+import {Link} from '@tanstack/react-router';
+import logoUrl from '../assets/logoBig.svg';
+import {Button, DashboardHeader, TaskRow} from '../components';
+import {spacing} from '../design-system/spacing';
+import {useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation} from '../api/taskQueries';
+import {useAuth} from '../context/AuthContext';
+import {displayName, formatDashboardDate} from '../utils';
 
 export function Dashboard() {
-  const { t, i18n } = useTranslation()
-  const { user, isAuthenticated } = useAuth()
-  const { data: tasks = [], isLoading: tasksLoading } = useTaskListQuery({
+  const {t, i18n} = useTranslation();
+  const {user, isAuthenticated} = useAuth();
+  const {data: tasks = [], isLoading: tasksLoading} = useTaskListQuery({
     enabled: isAuthenticated,
-  })
-  const toggleMutation = useToggleTaskMutation()
-  const deleteMutation = useDeleteTaskMutation()
+  });
+  const toggleMutation = useToggleTaskMutation();
+  const deleteMutation = useDeleteTaskMutation();
 
-  const name = user ? displayName(user.username) : ''
-  const dateString = formatDashboardDate(new Date(), i18n.language)
+  const name = user ? displayName(user.username) : '';
+  const dateString = formatDashboardDate(new Date(), i18n.language);
 
-  const todoTasks = tasks.filter((task) => !task.completed)
-  const completedTasks = tasks.filter((task) => task.completed)
-  const hasTasks = tasks.length > 0
+  const todoTasks = tasks.filter((task) => !task.completed);
+  const completedTasks = tasks.filter((task) => task.completed);
+  const hasTasks = tasks.length > 0;
 
   return (
-    <Box
-      minHeight="100vh"
-      display="flex"
-      flexDirection="column"
-      backgroundColor="fill-gray"
-    >
+    <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box
-        flex="1"
-        paddingX={{ base: 2, sm: spacing.page }}
-        paddingY={{ base: 6, sm: spacing.page }}
-      >
+      <Box flex="1" paddingX={{base: 2, sm: spacing.page}} paddingY={{base: 6, sm: spacing.page}}>
         <Box
           maxWidth="1280px"
           marginX="auto"
           backgroundColor="fill-white"
           borderRadius="12px"
-          padding={{ base: 4, sm: spacing.card }}
+          padding={{base: 4, sm: spacing.card}}
           boxShadow="0 1px 3px rgba(0,0,0,0.08)"
           display="flex"
           flexDirection="column"
@@ -65,7 +44,7 @@ export function Dashboard() {
             alignItems="flex-start"
             flexWrap="wrap"
             gap={spacing.section}
-            marginBottom={{ base: 4, sm: spacing.card }}
+            marginBottom={{base: 4, sm: spacing.card}}
           >
             <Box>
               <Heading
@@ -75,7 +54,7 @@ export function Dashboard() {
                 lineHeight="1.3"
                 marginBottom={spacing.inline}
               >
-                {t('dashboard.greeting', { name })}
+                {t('dashboard.greeting', {name})}
               </Heading>
               <Text fontSize="text.base" color="text-tertiary">
                 {dateString}
@@ -161,7 +140,7 @@ export function Dashboard() {
                           })
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
-                        onEdit={() => { }}
+                        onEdit={() => {}}
                       />
                     ))}
                   </VStack>
@@ -169,28 +148,12 @@ export function Dashboard() {
               )}
             </VStack>
           ) : (
-            <Flex
-              flex="1"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-            >
+            <Flex flex="1" flexDirection="column" alignItems="center" justifyContent="center">
               <VStack gap={6} maxWidth="320px" textAlign="center">
                 <Box aria-hidden>
-                  <Image
-                    src={logoUrl}
-                    alt=""
-                    width="120px"
-                    height="104px"
-                    opacity={0.9}
-                  />
+                  <Image src={logoUrl} alt="" width="120px" height="104px" opacity={0.9} />
                 </Box>
-                <Heading
-                  size="lg"
-                  color="text-primary"
-                  fontWeight="heading.2"
-                  lineHeight="1.3"
-                >
+                <Heading size="lg" color="text-primary" fontWeight="heading.2" lineHeight="1.3">
                   {t('dashboard.emptyTitle')}
                 </Heading>
                 <Text fontSize="text.base" color="text-secondary" lineHeight="1.5">
@@ -202,5 +165,5 @@ export function Dashboard() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }

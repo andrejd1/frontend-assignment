@@ -1,14 +1,14 @@
-import { apiClient } from './client'
-import type { Task } from '../types/task'
+import {apiClient} from './client';
+import type {Task} from '../types/task';
 
 /** Backend Todo shape (api responses) */
 interface TodoDto {
-  id: string
-  title: string
-  description?: string
-  createdAt: string
-  completed: boolean
-  userId: string
+  id: string;
+  title: string;
+  description?: string;
+  createdAt: string;
+  completed: boolean;
+  userId: string;
 }
 
 function mapTodoToTask(todo: TodoDto): Task {
@@ -18,43 +18,43 @@ function mapTodoToTask(todo: TodoDto): Task {
     description: todo.description ?? '',
     completed: todo.completed,
     createdAt: todo.createdAt,
-  }
+  };
 }
 
 export interface TaskListResponse {
-  todos: TodoDto[]
+  todos: TodoDto[];
 }
 
 export async function fetchTaskList(): Promise<Task[]> {
-  const { data } = await apiClient.get<TaskListResponse>('/api/todo/list')
-  return (data.todos ?? []).map(mapTodoToTask)
+  const {data} = await apiClient.get<TaskListResponse>('/api/todo/list');
+  return (data.todos ?? []).map(mapTodoToTask);
 }
 
 export interface CreateTaskPayload {
-  title: string
-  description?: string
+  title: string;
+  description?: string;
 }
 
 export async function createTask(payload: CreateTaskPayload): Promise<Task> {
-  const { data } = await apiClient.post<TodoDto>('/api/todo', {
+  const {data} = await apiClient.post<TodoDto>('/api/todo', {
     title: payload.title.trim(),
     description: (payload.description ?? '').trim() || undefined,
-  })
-  return mapTodoToTask(data)
+  });
+  return mapTodoToTask(data);
 }
 
 export async function updateTask(
   id: string,
-  updates: { title?: string; description?: string }
+  updates: {title?: string; description?: string}
 ): Promise<void> {
-  await apiClient.put(`/api/todo/${id}`, updates)
+  await apiClient.put(`/api/todo/${id}`, updates);
 }
 
 export async function deleteTask(id: string): Promise<void> {
-  await apiClient.delete(`/api/todo/${id}`)
+  await apiClient.delete(`/api/todo/${id}`);
 }
 
 export async function setTaskCompleted(id: string, completed: boolean): Promise<void> {
-  const path = completed ? `/api/todo/${id}/complete` : `/api/todo/${id}/incomplete`
-  await apiClient.post(path)
+  const path = completed ? `/api/todo/${id}/complete` : `/api/todo/${id}/incomplete`;
+  await apiClient.post(path);
 }
