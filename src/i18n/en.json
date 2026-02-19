@@ -41,7 +41,9 @@
     "greeting": "Hello {{name}}!",
     "addTask": "Add task +",
     "emptyTitle": "You are amazing!",
-    "emptyMessage": "There is no more task to do."
+    "emptyMessage": "There is no more task to do.",
+    "todo": "To-do",
+    "completed": "Completed"
   },
   "menu": {
     "settings": "Settings",
@@ -55,6 +57,8 @@
     "descriptionPlaceholder": "Add a description\u2026",
     "discard": "Discard",
     "createTask": "Create task",
-    "fieldMandatory": "This field is mandatory."
+    "fieldMandatory": "This field is mandatory.",
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }

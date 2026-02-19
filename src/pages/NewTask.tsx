@@ -20,11 +20,13 @@ import {
   createNewTaskSchema,
   type NewTaskFormValues,
 } from '../schemas/task'
+import { useCreateTaskMutation } from '../api/taskQueries'
 import { DashboardHeader } from '../components/DashboardHeader'
 
 export function NewTask() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const createTaskMutation = useCreateTaskMutation()
 
   const schema = useMemo(() => createNewTaskSchema(t), [t])
 
@@ -39,8 +41,10 @@ export function NewTask() {
   })
 
   const onSubmit = async (data: NewTaskFormValues) => {
-    // TODO: call create task API
-    console.log(data)
+    await createTaskMutation.mutateAsync({
+      title: data.title,
+      description: data.description,
+    })
     navigate({ to: '/' })
   }
 
@@ -215,11 +219,14 @@ export function NewTask() {
                 type="button"
                 variant="ghost"
                 onClick={onDiscard}
-                disabled={isSubmitting}
+                disabled={isSubmitting || createTaskMutation.isPending}
               >
                 {t('task.discard')}
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button
+                type="submit"
+                disabled={isSubmitting || createTaskMutation.isPending}
+              >
                 <HStack gap={spacing.inline} color="text-white">
                   <Text as="span" color="text-white">{t('task.createTask')}</Text>
                   <RiCheckLine size={20} />
