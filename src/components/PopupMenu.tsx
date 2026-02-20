@@ -1,4 +1,5 @@
 import {Box} from '@chakra-ui/react';
+import {motion} from 'framer-motion';
 import {useEffect, useRef, useState, type ReactNode} from 'react';
 
 export interface PopupMenuProps {
@@ -72,7 +73,13 @@ export function PopupMenu({trigger, children, placement = 'bottom-end', onClose}
           zIndex={10}
           role="menu"
         >
-          {typeof children === 'function' ? children(close) : children}
+          <motion.div
+            initial={{opacity: 0, scale: 0.96}}
+            animate={{opacity: 1, scale: 1}}
+            transition={{duration: 0.15, ease: 'easeOut'}}
+          >
+            {typeof children === 'function' ? children(close) : children}
+          </motion.div>
         </Box>
       )}
     </Box>

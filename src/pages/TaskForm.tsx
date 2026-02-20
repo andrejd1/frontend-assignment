@@ -105,6 +105,7 @@ export function TaskForm({ taskId }: TaskFormProps) {
                 backgroundColor="fill-gray"
                 color="text-primary"
                 _hover={{ backgroundColor: 'fill-gray-hover' }}
+                transition="background-color 0.2s ease"
               >
                 <RiArrowLeftLine size={17} />
               </Box>

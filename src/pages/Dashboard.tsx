@@ -1,41 +1,41 @@
-import {Box, Flex, Heading, HStack, Image, Text, VStack} from '@chakra-ui/react';
-import {useTranslation} from 'react-i18next';
-import {Link, useNavigate} from '@tanstack/react-router';
-import logoUrl from '../assets/logoBig.svg';
-import {Button, DashboardHeader, TaskRow} from '../components';
-import {spacing} from '../design-system/spacing';
-import {useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation} from '../api/taskQueries';
-import {useAuth} from '../context/AuthContext';
-import {displayName, formatDashboardDate} from '../utils';
+import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { Button, DashboardHeader, EmptyStateBlock, TaskRow } from '../components'
+import { spacing } from '../design-system/spacing'
+import { useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation } from '../api/taskQueries'
+import { useAuth } from '../context/AuthContext'
+import { displayName, formatDashboardDate } from '../utils'
 
 export function Dashboard() {
-  const {t, i18n} = useTranslation();
-  const navigate = useNavigate();
-  const {user, isAuthenticated} = useAuth();
-  const {data: tasks = [], isLoading: tasksLoading} = useTaskListQuery({
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const { user, isAuthenticated } = useAuth()
+  const { data: tasks = [], isLoading: tasksLoading } = useTaskListQuery({
     enabled: isAuthenticated,
-  });
-  const toggleMutation = useToggleTaskMutation();
-  const deleteMutation = useDeleteTaskMutation();
+  })
+  const toggleMutation = useToggleTaskMutation()
+  const deleteMutation = useDeleteTaskMutation()
 
-  const name = user ? displayName(user.username) : '';
-  const dateString = formatDashboardDate(new Date(), i18n.language);
+  const name = user ? displayName(user.username) : ''
+  const dateString = formatDashboardDate(new Date(), i18n.language)
 
-  const todoTasks = tasks.filter((task) => !task.completed);
-  const completedTasks = tasks.filter((task) => task.completed);
-  const hasTasks = tasks.length > 0;
+  const todoTasks = tasks.filter((task) => !task.completed)
+  const completedTasks = tasks.filter((task) => task.completed)
+  const hasTasks = tasks.length > 0
+  const allCompleted = hasTasks && todoTasks.length === 0
 
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{base: 2, sm: spacing.page}} paddingY={{base: 6, sm: spacing.page}}>
+      <Box flex="1" paddingX={{ base: 2, sm: spacing.page }} paddingY={0}>
         <Box
           maxWidth="1280px"
           marginX="auto"
           backgroundColor="fill-white"
           borderRadius="12px"
-          padding={{base: 4, sm: spacing.card}}
+          padding={{ base: 4, sm: spacing.card }}
           boxShadow="0 1px 3px rgba(0,0,0,0.08)"
           display="flex"
           flexDirection="column"
@@ -45,7 +45,7 @@ export function Dashboard() {
             alignItems="flex-start"
             flexWrap="wrap"
             gap={spacing.section}
-            marginBottom={{base: 4, sm: spacing.card}}
+            marginBottom={{ base: 4, sm: spacing.card }}
           >
             <Box>
               <Heading
@@ -55,7 +55,7 @@ export function Dashboard() {
                 lineHeight="1.3"
                 marginBottom={spacing.inline}
               >
-                {t('dashboard.greeting', {name})}
+                {t('dashboard.greeting', { name })}
               </Heading>
               <Text fontSize="text.base" color="text-tertiary">
                 {dateString}
@@ -83,6 +83,7 @@ export function Dashboard() {
             </Flex>
           ) : hasTasks ? (
             <VStack align="stretch" gap={6}>
+              {allCompleted && <EmptyStateBlock />}
               {todoTasks.length > 0 && (
                 <Box>
                   <Heading
@@ -109,7 +110,7 @@ export function Dashboard() {
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
                         onEdit={() =>
-                          navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}})
+                          navigate({ to: '/tasks/$taskId/edit', params: { taskId: task.id } })
                         }
                       />
                     ))}
@@ -142,7 +143,7 @@ export function Dashboard() {
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
                         onEdit={() =>
-                          navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}})
+                          navigate({ to: '/tasks/$taskId/edit', params: { taskId: task.id } })
                         }
                       />
                     ))}
@@ -151,22 +152,10 @@ export function Dashboard() {
               )}
             </VStack>
           ) : (
-            <Flex flex="1" flexDirection="column" alignItems="center" justifyContent="center">
-              <VStack gap={6} maxWidth="320px" textAlign="center">
-                <Box aria-hidden>
-                  <Image src={logoUrl} alt="" width="120px" height="104px" opacity={0.9} />
-                </Box>
-                <Heading size="lg" color="text-primary" fontWeight="heading.2" lineHeight="1.3">
-                  {t('dashboard.emptyTitle')}
-                </Heading>
-                <Text fontSize="text.base" color="text-secondary" lineHeight="1.5">
-                  {t('dashboard.emptyMessage')}
-                </Text>
-              </VStack>
-            </Flex>
+            <EmptyStateBlock />
           )}
         </Box>
       </Box>
     </Box>
-  );
+  )
 }

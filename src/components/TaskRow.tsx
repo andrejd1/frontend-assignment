@@ -25,7 +25,8 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
       height="32px"
       borderRadius="100px"
       color="text-primary"
-      _hover={{ backgroundColor: 'fill-gray' }}
+      _hover={{ backgroundColor: 'fill-white' }}
+      transition="background-color 0.2s ease"
       aria-label={t('task.edit')}
     >
       <BsThreeDotsVertical size={16} />
@@ -37,10 +38,15 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
       alignItems="flex-start"
       gap={3}
       paddingX={2}
+      paddingY={2}
       borderRadius="8px"
       cursor="pointer"
-      _hover={{ boxShadow: '2px 4px 12px rgba(0,0,0,0.15)', padding: '8px' }}
-      transition="box-shadow 0.25s, padding 0.25s"
+      backgroundColor="transparent"
+      _hover={{
+        backgroundColor: 'fill-gray-lightest',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+      }}
+      transition="background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease"
       onClick={() => onEdit()}
     >
       <Box marginTop={1} flexShrink={0}>
@@ -56,11 +62,15 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
           alignItems="center"
           justifyContent="center"
           cursor="pointer"
-          onClick={() => onToggle()}
+          onClick={(e) => {
+            e.stopPropagation()
+            onToggle()
+          }}
           role="checkbox"
           aria-checked={task.completed}
           aria-label={task.title}
           flexShrink={0}
+          transition="border-color 0.2s ease, background-color 0.2s ease"
           _hover={{
             borderColor: task.completed ? 'fill-brand-hover' : 'border-gray',
             backgroundColor: task.completed ? 'fill-brand-hover' : 'fill-gray',
@@ -99,40 +109,42 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
           </Text>
         ) : null}
       </Box>
-      <PopupMenu trigger={threeDotsTrigger} placement="bottom-end">
-        {(close) => (
-          <>
-            <MenuButton
-              onClick={() => {
-                close()
-                onEdit()
-              }}
-            >
-              <HStack gap={2}>
-                <RiPencilFill size={18} />
-                <Text color="text-primary" fontSize="text.small">
-                  {t('task.edit')}
-                </Text>
-              </HStack>
-            </MenuButton>
-            <MenuButton
-              onClick={() => {
-                close()
-                onDelete()
-              }}
-              color="text-danger"
-              _hover={{ backgroundColor: 'fill-gray', color: 'text-danger' }}
-            >
-              <HStack gap={2} color="text-danger">
-                <MdDelete size={18} />
-                <Text color="text-danger" fontSize="text.small">
-                  {t('task.delete')}
-                </Text>
-              </HStack>
-            </MenuButton>
-          </>
-        )}
-      </PopupMenu>
+      <Box onClick={(e: React.MouseEvent) => e.stopPropagation()} display="inline-block">
+        <PopupMenu trigger={threeDotsTrigger} placement="bottom-end">
+          {(close) => (
+            <>
+              <MenuButton
+                onClick={() => {
+                  close()
+                  onEdit()
+                }}
+              >
+                <HStack gap={2}>
+                  <RiPencilFill size={18} />
+                  <Text color="text-primary" fontSize="text.small">
+                    {t('task.edit')}
+                  </Text>
+                </HStack>
+              </MenuButton>
+              <MenuButton
+                onClick={() => {
+                  close()
+                  onDelete()
+                }}
+                color="text-danger"
+                _hover={{ backgroundColor: 'fill-gray', color: 'text-danger' }}
+              >
+                <HStack gap={2} color="text-danger">
+                  <MdDelete size={18} />
+                  <Text color="text-danger" fontSize="text.small">
+                    {t('task.delete')}
+                  </Text>
+                </HStack>
+              </MenuButton>
+            </>
+          )}
+        </PopupMenu>
+      </Box>
     </Flex>
   )
 }

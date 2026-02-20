@@ -16,11 +16,13 @@ const variantStyles = {
   brand: {
     backgroundColor: 'fill-brand',
     color: 'text-white',
+    transition: 'background-color 0.2s ease',
     _hover: {backgroundColor: 'fill-brand-hover'},
   },
   ghost: {
     backgroundColor: 'fill-gray',
     color: 'text-primary',
+    transition: 'background-color 0.2s ease',
     _hover: {backgroundColor: 'fill-white-hover'},
   },
 } as const;

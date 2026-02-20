@@ -26,6 +26,7 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
       borderRadius="4px"
       cursor={disabled ? 'not-allowed' : 'pointer'}
       opacity={disabled ? 0.7 : 1}
+      transition="background-color 0.2s ease"
       _hover={disabled ? undefined : {backgroundColor: 'fill-gray'}}
       _active={disabled ? undefined : {backgroundColor: 'fill-gray-hover'}}
       _disabled={{
