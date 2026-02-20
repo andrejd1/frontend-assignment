@@ -1,15 +1,17 @@
 import { Box, Flex, HStack, Image, Text } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
-import logoUrl from '../assets/logoBig.svg'
+import logoUrl from '../assets/logo.svg'
 import { MenuButton } from './MenuButton'
 import { PopupMenu } from './PopupMenu'
 import { spacing } from '../design-system/spacing'
 import { useAuth } from '../context/AuthContext'
 import { displayName } from '../utils'
+import { useNavigate } from '@tanstack/react-router'
 
 export function DashboardHeader() {
   const { t } = useTranslation()
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   const trigger = (
     <button
@@ -70,9 +72,9 @@ export function DashboardHeader() {
       paddingX={{ base: 4, sm: spacing.page }}
       paddingY={{ base: 6, sm: spacing.pageVertical }}
     >
-      <HStack gap={spacing.inlineTight}>
+      <HStack gap={spacing.inline} cursor="pointer" onClick={() => navigate({ to: '/' })}>
         <Image src={logoUrl} alt="" width="37px" height="32px" />
-        <Text fontSize="24px" fontWeight="600" color="text-primary" letterSpacing="-0.02em">
+        <Text fontSize="22px" fontWeight="600" color="text-primary" letterSpacing="-0.02em">
           Zentask
         </Text>
       </HStack>
@@ -84,7 +86,8 @@ export function DashboardHeader() {
                 disabled
                 onClick={() => {
                   close()
-                  // should open settings modal
+                  // TODO: should open settings modal (not in the scope of this assignment)
+                  console.log('settings')
                 }}
               >
                 {t('menu.settings')}
