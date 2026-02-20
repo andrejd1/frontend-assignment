@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { Button, DashboardHeader, EmptyStateBlock, TaskRow } from '../components'
+import { Button, Card, DashboardHeader, EmptyStateBlock, TaskRow } from '../components'
 import { spacing } from '../design-system/spacing'
 import { useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation } from '../api/taskQueries'
 import { useAuth } from '../context/AuthContext'
@@ -30,13 +30,10 @@ export function Dashboard() {
       <DashboardHeader />
 
       <Box flex="1" paddingX={{ base: 2, sm: spacing.page }} paddingY={0}>
-        <Box
+        <Card
           maxWidth="1280px"
           marginX="auto"
-          backgroundColor="fill-white"
-          borderRadius="12px"
           padding={{ base: 4, sm: spacing.card }}
-          boxShadow="0 1px 3px rgba(0,0,0,0.08)"
           display="flex"
           flexDirection="column"
         >
@@ -154,7 +151,7 @@ export function Dashboard() {
           ) : (
             <EmptyStateBlock />
           )}
-        </Box>
+        </Card>
       </Box>
     </Box>
   )

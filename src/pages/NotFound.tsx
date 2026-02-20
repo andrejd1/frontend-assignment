@@ -3,7 +3,7 @@ import {Link} from '@tanstack/react-router';
 import logoUrl from '../assets/logo.svg';
 import {RiArrowLeftLine} from 'react-icons/ri';
 import {useTranslation} from 'react-i18next';
-import {Button} from '../components';
+import {Button, Card} from '../components';
 import {spacing} from '../design-system/spacing';
 
 export function NotFound() {
@@ -19,12 +19,10 @@ export function NotFound() {
       backgroundColor="fill-gray"
       padding={spacing.page}
     >
-      <VStack
+      <Card as={VStack}
         gap={spacing.stackCard}
         align="center"
         maxWidth="640px"
-        backgroundColor="fill-white"
-        borderRadius="12px"
         padding={spacing.card}
       >
         <Box display="flex" alignItems="center" gap={spacing.inlineTight}>
@@ -48,7 +46,7 @@ export function NotFound() {
             {t('notFound.goBack')}
           </Link>
         </Button>
-      </VStack>
+      </Card>
     </Box>
   );
 }

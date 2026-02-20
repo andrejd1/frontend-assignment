@@ -56,3 +56,6 @@ dev--*generated*
 cypress/screenshots
 cypress/videos
 cypress/downloads
+
+# Storybook
+storybook-static

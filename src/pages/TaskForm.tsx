@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo } from 'react'
-import { Button } from '../components'
+import { Button, Card } from '../components'
 import { spacing } from '../design-system/spacing'
 import { createNewTaskSchema, type NewTaskFormValues } from '../schemas/task'
 import { useCreateTaskMutation, useTaskQuery, useUpdateTaskMutation } from '../api/taskQueries'
@@ -85,13 +85,11 @@ export function TaskForm({ taskId }: TaskFormProps) {
       <DashboardHeader />
 
       <Box flex="1" paddingX={{ base: 4, md: spacing.page }}>
-        <Box
+        <Card
           maxWidth="1280px"
           marginX="auto"
-          backgroundColor="fill-white"
           borderRadius="24px"
           padding={{ base: 4, sm: spacing.card }}
-          boxShadow="0 1px 3px rgba(0,0,0,0.08)"
         >
           <HStack gap={spacing.stack} marginBottom={spacing.card} alignItems="flex-start">
             <Link to="/" aria-label="Go back" style={{ display: 'flex' }}>
@@ -238,7 +236,7 @@ export function TaskForm({ taskId }: TaskFormProps) {
               </Button>
             </Flex>
           </form>
-        </Box>
+        </Card>
       </Box>
     </Box>
   )

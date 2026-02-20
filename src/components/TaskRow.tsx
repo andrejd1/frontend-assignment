@@ -1,9 +1,9 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
-import { RiCheckLine, RiPencilFill } from 'react-icons/ri'
+import { RiPencilFill } from 'react-icons/ri'
 import { MdDelete } from 'react-icons/md'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { MenuButton, PopupMenu } from './index'
+import { Checkbox, MenuButton, PopupMenu } from './index'
 import type { Task } from '../types/task'
 import { spacing } from '../design-system/spacing'
 
@@ -25,7 +25,7 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
       height="32px"
       borderRadius="100px"
       color="text-primary"
-      _hover={{ backgroundColor: 'fill-white' }}
+      _hover={{ backgroundColor: 'fill-gray' }}
       transition="background-color 0.2s ease"
       aria-label={t('task.edit')}
     >
@@ -49,39 +49,12 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
       transition="background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease"
       onClick={() => onEdit()}
     >
-      <Box marginTop={1} flexShrink={0}>
-        <Box
-          as="button"
-          width="32px"
-          height="32px"
-          borderRadius="full"
-          borderWidth="2px"
-          borderColor={task.completed ? 'fill-brand' : 'border-gray'}
-          backgroundColor={task.completed ? 'fill-brand' : 'fill-white'}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          cursor="pointer"
-          onClick={(e) => {
-            e.stopPropagation()
-            onToggle()
-          }}
-          role="checkbox"
-          aria-checked={task.completed}
+      <Box marginTop={1} flexShrink={0} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+        <Checkbox
+          checked={task.completed}
+          onChange={onToggle}
           aria-label={task.title}
-          flexShrink={0}
-          transition="border-color 0.2s ease, background-color 0.2s ease"
-          _hover={{
-            borderColor: task.completed ? 'fill-brand-hover' : 'border-gray',
-            backgroundColor: task.completed ? 'fill-brand-hover' : 'fill-gray',
-          }}
-        >
-          {task.completed ? (
-            <Box color="text-white" lineHeight={0}>
-              <RiCheckLine size={22} />
-            </Box>
-          ) : null}
-        </Box>
+        />
       </Box>
       <Box flex="1" minWidth={0} marginTop={2}>
         <Text

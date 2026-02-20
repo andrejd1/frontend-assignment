@@ -8,7 +8,7 @@ import {useMemo, useState} from 'react';
 import logoUrl from '../assets/logo.svg';
 import showPasswordIcon from '../assets/icons/icon-show.svg';
 import hidePasswordIcon from '../assets/icons/icon.hide.svg';
-import {Button} from '../components';
+import {Button, Card} from '../components';
 import {spacing} from '../design-system/spacing';
 import {useAuth} from '../context/AuthContext';
 import {createRegisterSchema, type RegisterFormValues} from '../schemas/auth';
@@ -63,12 +63,7 @@ export function Register() {
       </Box>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate style={{width: '100%', maxWidth: '560px'}}>
-        <Box
-          backgroundColor="fill-white"
-          borderRadius="12px"
-          padding={spacing.card}
-          boxShadow="0 1px 3px rgba(0,0,0,0.08)"
-        >
+        <Card padding={spacing.card}>
           <VStack gap={spacing.stack} align="stretch">
             <Box marginBottom={spacing.footer}>
               <Heading size="2xl" color="text-primary" fontWeight="heading.1" lineHeight="1.3">
@@ -326,7 +321,7 @@ export function Register() {
               </Link>
             </Text>
           </VStack>
-        </Box>
+        </Card>
       </form>
     </Box>
   );
