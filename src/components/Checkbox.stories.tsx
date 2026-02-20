@@ -1,34 +1,34 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { useState } from 'react'
-import { Checkbox } from './Checkbox'
+import type {Meta, StoryObj} from '@storybook/react';
+import {useState} from 'react';
+import {Checkbox} from './Checkbox';
 
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
   argTypes: {
-    checked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
+    checked: {control: 'boolean'},
+    disabled: {control: 'boolean'},
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Checkbox>
+type Story = StoryObj<typeof Checkbox>;
 
 export const Unchecked: Story = {
   args: {
     checked: false,
     'aria-label': 'Task item',
   },
-}
+};
 
 export const Checked: Story = {
   args: {
     checked: true,
     'aria-label': 'Task item',
   },
-}
+};
 
 export const Disabled: Story = {
   args: {
@@ -36,17 +36,13 @@ export const Disabled: Story = {
     disabled: true,
     'aria-label': 'Disabled task',
   },
-}
+};
 
 export const Interactive: Story = {
   render: function InteractiveCheckbox() {
-    const [checked, setChecked] = useState(false)
+    const [checked, setChecked] = useState(false);
     return (
-      <Checkbox
-        checked={checked}
-        onChange={() => setChecked((c) => !c)}
-        aria-label="Toggle task"
-      />
-    )
+      <Checkbox checked={checked} onChange={() => setChecked((c) => !c)} aria-label="Toggle task" />
+    );
   },
-}
+};

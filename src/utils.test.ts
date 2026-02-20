@@ -1,4 +1,4 @@
-import { displayName, formatDashboardDate } from './utils';
+import {displayName, formatDashboardDate} from './utils';
 
 describe('displayName', () => {
   it('capitalizes first letter and lowercases the rest', () => {

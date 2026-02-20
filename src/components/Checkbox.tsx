@@ -1,15 +1,15 @@
-import { Box } from '@chakra-ui/react'
-import { RiCheckLine } from 'react-icons/ri'
+import {Box} from '@chakra-ui/react';
+import {RiCheckLine} from 'react-icons/ri';
 
 export interface CheckboxProps {
   /** Whether the checkbox is checked */
-  checked: boolean
+  checked: boolean;
   /** Change handler */
-  onChange?: () => void
+  onChange?: () => void;
   /** Accessible label (required for a11y when used standalone) */
-  'aria-label': string
+  'aria-label': string;
   /** Disabled state */
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 export function Checkbox({
@@ -54,5 +54,5 @@ export function Checkbox({
         </Box>
       ) : null}
     </Box>
-  )
+  );
 }

@@ -49,13 +49,7 @@ export function EmptyStateBlock() {
                   ease: 'easeInOut',
                 }}
               >
-                <Image
-                  src={logoUrl}
-                  alt=""
-                  width="120px"
-                  height="104px"
-                  opacity={0.9}
-                />
+                <Image src={logoUrl} alt="" width="120px" height="104px" opacity={0.9} />
               </motion.div>
             </motion.div>
           </Box>
@@ -64,12 +58,7 @@ export function EmptyStateBlock() {
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.3, delay: 0.2}}
           >
-            <Heading
-              size="lg"
-              color="text-primary"
-              fontWeight="heading.2"
-              lineHeight="1.3"
-            >
+            <Heading size="lg" color="text-primary" fontWeight="heading.2" lineHeight="1.3">
               {t('dashboard.emptyTitle')}
             </Heading>
           </motion.div>
@@ -78,11 +67,7 @@ export function EmptyStateBlock() {
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.3, delay: 0.3}}
           >
-            <Text
-              fontSize="text.base"
-              color="text-secondary"
-              lineHeight="1.5"
-            >
+            <Text fontSize="text.base" color="text-secondary" lineHeight="1.5">
               {t('dashboard.emptyMessage')}
             </Text>
           </motion.div>

@@ -1,28 +1,24 @@
-import {
-  Dialog,
-  HStack,
-  Text,
-} from '@chakra-ui/react'
-import type { ComponentType, ReactNode } from 'react'
-import { spacing } from '../design-system/spacing'
+import {Dialog, HStack, Text} from '@chakra-ui/react';
+import type {ComponentType, ReactNode} from 'react';
+import {spacing} from '../design-system/spacing';
 
-type WithChildren = ComponentType<{ children?: ReactNode }>
-type WithChildrenAndProps = ComponentType<{ children?: ReactNode; [key: string]: unknown }>
-const Positioner = Dialog.Positioner as WithChildren
-const Content = Dialog.Content as WithChildrenAndProps
-const Title = Dialog.Title as WithChildren
-import { Button } from './Button'
+type WithChildren = ComponentType<{children?: ReactNode}>;
+type WithChildrenAndProps = ComponentType<{children?: ReactNode; [key: string]: unknown}>;
+const Positioner = Dialog.Positioner as WithChildren;
+const Content = Dialog.Content as WithChildrenAndProps;
+const Title = Dialog.Title as WithChildren;
+import {Button} from './Button';
 
 export interface ConfirmDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  title: string
-  description: string
-  confirmLabel: string
-  onConfirm: () => void
-  cancelLabel?: string
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description: string;
+  confirmLabel: string;
+  onConfirm: () => void;
+  cancelLabel?: string;
   /** Use for destructive actions (e.g. delete) */
-  variant?: 'danger' | 'default'
+  variant?: 'danger' | 'default';
 }
 
 export function ConfirmDialog({
@@ -36,18 +32,18 @@ export function ConfirmDialog({
   variant = 'default',
 }: ConfirmDialogProps) {
   const handleConfirm = () => {
-    onConfirm()
-    onOpenChange(false)
-  }
+    onConfirm();
+    onOpenChange(false);
+  };
 
   const handleCancel = () => {
-    onOpenChange(false)
-  }
+    onOpenChange(false);
+  };
 
   return (
     <Dialog.Root
       open={open}
-      onOpenChange={(e: { open: boolean }) => onOpenChange(e.open)}
+      onOpenChange={(e: {open: boolean}) => onOpenChange(e.open)}
       role="alertdialog"
       size="sm"
       closeOnInteractOutside={variant !== 'danger'}
@@ -65,9 +61,10 @@ export function ConfirmDialog({
           </Dialog.Body>
           <Dialog.Footer>
             <HStack gap={3} justifyContent="flex-end">
-              <Button variant="ghost"
+              <Button
+                variant="ghost"
                 onClick={handleCancel}
-                _hover={{ backgroundColor: 'fill-gray-hover' }}
+                _hover={{backgroundColor: 'fill-gray-hover'}}
                 transition="background-color 0.2s ease"
               >
                 {cancelLabel}
@@ -84,5 +81,5 @@ export function ConfirmDialog({
         </Content>
       </Positioner>
     </Dialog.Root>
-  )
+  );
 }

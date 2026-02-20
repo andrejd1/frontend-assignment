@@ -1,39 +1,39 @@
-import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from '@tanstack/react-router'
-import { Button, Card, DashboardHeader, EmptyStateBlock, TaskRow } from '../components'
-import { spacing } from '../design-system/spacing'
-import { useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation } from '../api/taskQueries'
-import { useAuth } from '../context/AuthContext'
-import { displayName, formatDashboardDate } from '../utils'
+import {Box, Flex, Heading, HStack, Text, VStack} from '@chakra-ui/react';
+import {useTranslation} from 'react-i18next';
+import {Link, useNavigate} from '@tanstack/react-router';
+import {Button, Card, DashboardHeader, EmptyStateBlock, TaskRow} from '../components';
+import {spacing} from '../design-system/spacing';
+import {useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation} from '../api/taskQueries';
+import {useAuth} from '../context/AuthContext';
+import {displayName, formatDashboardDate} from '../utils';
 
 export function Dashboard() {
-  const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
-  const { user, isAuthenticated } = useAuth()
-  const { data: tasks = [], isLoading: tasksLoading } = useTaskListQuery({
+  const {t, i18n} = useTranslation();
+  const navigate = useNavigate();
+  const {user, isAuthenticated} = useAuth();
+  const {data: tasks = [], isLoading: tasksLoading} = useTaskListQuery({
     enabled: isAuthenticated,
-  })
-  const toggleMutation = useToggleTaskMutation()
-  const deleteMutation = useDeleteTaskMutation()
+  });
+  const toggleMutation = useToggleTaskMutation();
+  const deleteMutation = useDeleteTaskMutation();
 
-  const name = user ? displayName(user.username) : ''
-  const dateString = formatDashboardDate(new Date(), i18n.language)
+  const name = user ? displayName(user.username) : '';
+  const dateString = formatDashboardDate(new Date(), i18n.language);
 
-  const todoTasks = tasks.filter((task) => !task.completed)
-  const completedTasks = tasks.filter((task) => task.completed)
-  const hasTasks = tasks.length > 0
-  const allCompleted = hasTasks && todoTasks.length === 0
+  const todoTasks = tasks.filter((task) => !task.completed);
+  const completedTasks = tasks.filter((task) => task.completed);
+  const hasTasks = tasks.length > 0;
+  const allCompleted = hasTasks && todoTasks.length === 0;
 
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{ base: 2, sm: spacing.page }} paddingY={0}>
+      <Box flex="1" paddingX={{base: 2, sm: spacing.page}} paddingY={0}>
         <Card
           maxWidth="1280px"
           marginX="auto"
-          padding={{ base: 4, sm: spacing.card }}
+          padding={{base: 4, sm: spacing.card}}
           display="flex"
           flexDirection="column"
         >
@@ -42,7 +42,7 @@ export function Dashboard() {
             alignItems="flex-start"
             flexWrap="wrap"
             gap={spacing.section}
-            marginBottom={{ base: 4, sm: spacing.card }}
+            marginBottom={{base: 4, sm: spacing.card}}
           >
             <Box>
               <Heading
@@ -52,7 +52,7 @@ export function Dashboard() {
                 lineHeight="1.3"
                 marginBottom={spacing.inline}
               >
-                {t('dashboard.greeting', { name })}
+                {t('dashboard.greeting', {name})}
               </Heading>
               <Text fontSize="text.base" color="text-tertiary">
                 {dateString}
@@ -107,7 +107,7 @@ export function Dashboard() {
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
                         onEdit={() =>
-                          navigate({ to: '/tasks/$taskId/edit', params: { taskId: task.id } })
+                          navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}})
                         }
                       />
                     ))}
@@ -140,7 +140,7 @@ export function Dashboard() {
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
                         onEdit={() =>
-                          navigate({ to: '/tasks/$taskId/edit', params: { taskId: task.id } })
+                          navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}})
                         }
                       />
                     ))}
@@ -154,5 +154,5 @@ export function Dashboard() {
         </Card>
       </Box>
     </Box>
-  )
+  );
 }

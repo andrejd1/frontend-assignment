@@ -1,4 +1,4 @@
-import { createLoginSchema, createRegisterSchema } from './auth';
+import {createLoginSchema, createRegisterSchema} from './auth';
 
 const t = (key: string) => key;
 
@@ -6,7 +6,7 @@ describe('createLoginSchema', () => {
   const schema = createLoginSchema(t);
 
   it('accepts valid username and password', () => {
-    const result = schema.safeParse({ username: 'alice', password: 'secret123' });
+    const result = schema.safeParse({username: 'alice', password: 'secret123'});
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.username).toBe('alice');
@@ -15,23 +15,23 @@ describe('createLoginSchema', () => {
   });
 
   it('trims username', () => {
-    const result = schema.safeParse({ username: '  bob  ', password: 'pass' });
+    const result = schema.safeParse({username: '  bob  ', password: 'pass'});
     expect(result.success).toBe(true);
     if (result.success) expect(result.data.username).toBe('bob');
   });
 
   it('rejects empty username', () => {
-    const result = schema.safeParse({ username: '', password: 'pass' });
+    const result = schema.safeParse({username: '', password: 'pass'});
     expect(result.success).toBe(false);
   });
 
   it('rejects empty password', () => {
-    const result = schema.safeParse({ username: 'alice', password: '' });
+    const result = schema.safeParse({username: 'alice', password: ''});
     expect(result.success).toBe(false);
   });
 
   it('returns auth.fieldMandatory for missing username', () => {
-    const result = schema.safeParse({ username: '', password: 'x' });
+    const result = schema.safeParse({username: '', password: 'x'});
     expect(result.success).toBe(false);
     if (!result.success) {
       expect(result.error.issues[0].message).toBe('auth.fieldMandatory');

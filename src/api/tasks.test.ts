@@ -19,14 +19,16 @@ jest.mock('./client', () => ({
 
 const mockedApiClient = apiClient as jest.Mocked<typeof apiClient>;
 
-const todoDto = (overrides: Partial<{
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  completed: boolean;
-  userId: string;
-}> = {}) => ({
+const todoDto = (
+  overrides: Partial<{
+    id: string;
+    title: string;
+    description: string;
+    createdAt: string;
+    completed: boolean;
+    userId: string;
+  }> = {}
+) => ({
   id: 'tid-1',
   title: 'Task one',
   description: 'Desc',
@@ -38,8 +40,8 @@ const todoDto = (overrides: Partial<{
 
 describe('fetchTaskList', () => {
   it('maps todos to tasks and returns array', async () => {
-    const todos = [todoDto(), todoDto({ id: 'tid-2', title: 'Two' })];
-    mockedApiClient.get.mockResolvedValueOnce({ data: { todos } });
+    const todos = [todoDto(), todoDto({id: 'tid-2', title: 'Two'})];
+    mockedApiClient.get.mockResolvedValueOnce({data: {todos}});
     const result = await fetchTaskList();
     expect(mockedApiClient.get).toHaveBeenCalledWith('/api/todo/list');
     expect(result).toHaveLength(2);
@@ -54,14 +56,14 @@ describe('fetchTaskList', () => {
   });
 
   it('returns empty array when todos is missing', async () => {
-    mockedApiClient.get.mockResolvedValueOnce({ data: {} });
+    mockedApiClient.get.mockResolvedValueOnce({data: {}});
     const result = await fetchTaskList();
     expect(result).toEqual([]);
   });
 
   it('maps missing description to empty string', async () => {
     mockedApiClient.get.mockResolvedValueOnce({
-      data: { todos: [todoDto({ description: undefined })] },
+      data: {todos: [todoDto({description: undefined})]},
     });
     const result = await fetchTaskList();
     expect(result[0].description).toBe('');
@@ -70,8 +72,8 @@ describe('fetchTaskList', () => {
 
 describe('fetchTask', () => {
   it('fetches single task and maps to Task', async () => {
-    const dto = todoDto({ id: 'tid-42' });
-    mockedApiClient.get.mockResolvedValueOnce({ data: dto });
+    const dto = todoDto({id: 'tid-42'});
+    mockedApiClient.get.mockResolvedValueOnce({data: dto});
     const result = await fetchTask('tid-42');
     expect(mockedApiClient.get).toHaveBeenCalledWith('/api/todo/tid-42');
     expect(result.id).toBe('tid-42');
@@ -82,9 +84,9 @@ describe('fetchTask', () => {
 
 describe('createTask', () => {
   it('posts trimmed title and optional description', async () => {
-    const dto = todoDto({ id: 'new-id' });
-    mockedApiClient.post.mockResolvedValueOnce({ data: dto });
-    await createTask({ title: '  New task  ', description: '  desc  ' });
+    const dto = todoDto({id: 'new-id'});
+    mockedApiClient.post.mockResolvedValueOnce({data: dto});
+    await createTask({title: '  New task  ', description: '  desc  '});
     expect(mockedApiClient.post).toHaveBeenCalledWith('/api/todo', {
       title: 'New task',
       description: 'desc',
@@ -92,8 +94,8 @@ describe('createTask', () => {
   });
 
   it('sends undefined description when empty', async () => {
-    mockedApiClient.post.mockResolvedValueOnce({ data: todoDto() });
-    await createTask({ title: 'Only title', description: '' });
+    mockedApiClient.post.mockResolvedValueOnce({data: todoDto()});
+    await createTask({title: 'Only title', description: ''});
     expect(mockedApiClient.post).toHaveBeenCalledWith('/api/todo', {
       title: 'Only title',
       description: undefined,
@@ -104,7 +106,7 @@ describe('createTask', () => {
 describe('updateTask', () => {
   it('puts updates to correct path', async () => {
     mockedApiClient.put.mockResolvedValueOnce(undefined);
-    await updateTask('tid-1', { title: 'Updated', description: 'New desc' });
+    await updateTask('tid-1', {title: 'Updated', description: 'New desc'});
     expect(mockedApiClient.put).toHaveBeenCalledWith('/api/todo/tid-1', {
       title: 'Updated',
       description: 'New desc',

@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { Box, Text } from '@chakra-ui/react'
-import { Card } from './Card'
+import type {Meta, StoryObj} from '@storybook/react';
+import {Box, Text} from '@chakra-ui/react';
+import {Card} from './Card';
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
   component: Card,
   tags: ['autodocs'],
   argTypes: {
-    padding: { control: 'text' },
-    borderRadius: { control: 'text' },
+    padding: {control: 'text'},
+    borderRadius: {control: 'text'},
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Card>
+type Story = StoryObj<typeof Card>;
 
 export const Default: Story = {
   render: (args) => (
@@ -29,22 +29,22 @@ export const Default: Story = {
       </Box>
     </Card>
   ),
-}
+};
 
 export const WithCustomPadding: Story = {
-  args: { padding: 8 },
+  args: {padding: 8},
   render: (args) => (
     <Card {...args}>
       <Text color="text-primary">Card with extra padding</Text>
     </Card>
   ),
-}
+};
 
 export const Rounded: Story = {
-  args: { borderRadius: '24px', padding: 6 },
+  args: {borderRadius: '24px', padding: 6},
   render: (args) => (
     <Card {...args}>
       <Text color="text-primary">More rounded card (e.g. task form)</Text>
     </Card>
   ),
-}
+};

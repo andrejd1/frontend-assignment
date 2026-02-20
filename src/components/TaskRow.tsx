@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import { Box, Flex, HStack, Text } from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
-import { RiPencilFill } from 'react-icons/ri'
-import { MdDelete } from 'react-icons/md'
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { Checkbox, ConfirmDialog, MenuButton, PopupMenu } from './index'
-import type { Task } from '../types/task'
-import { spacing } from '../design-system/spacing'
+import {useState} from 'react';
+import {Box, Flex, HStack, Text} from '@chakra-ui/react';
+import {useTranslation} from 'react-i18next';
+import {RiPencilFill} from 'react-icons/ri';
+import {MdDelete} from 'react-icons/md';
+import {BsThreeDotsVertical} from 'react-icons/bs';
+import {Checkbox, ConfirmDialog, MenuButton, PopupMenu} from './index';
+import type {Task} from '../types/task';
+import {spacing} from '../design-system/spacing';
 
 export interface TaskRowProps {
-  task: Task
-  onToggle: () => void
-  onDelete: () => void
-  onEdit: () => void
+  task: Task;
+  onToggle: () => void;
+  onDelete: () => void;
+  onEdit: () => void;
 }
 
-export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
-  const { t } = useTranslation()
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
+  const {t} = useTranslation();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const threeDotsTrigger = (
     <Box
       display="flex"
@@ -27,13 +27,13 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
       height="32px"
       borderRadius="100px"
       color="text-primary"
-      _hover={{ backgroundColor: 'fill-gray' }}
+      _hover={{backgroundColor: 'fill-gray'}}
       transition="background-color 0.2s ease"
       aria-label={t('task.edit')}
     >
       <BsThreeDotsVertical size={16} />
     </Box>
-  )
+  );
 
   return (
     <Flex
@@ -52,11 +52,7 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
       onClick={() => onEdit()}
     >
       <Box marginTop={1} flexShrink={0} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-        <Checkbox
-          checked={task.completed}
-          onChange={onToggle}
-          aria-label={task.title}
-        />
+        <Checkbox checked={task.completed} onChange={onToggle} aria-label={task.title} />
       </Box>
       <Box flex="1" minWidth={0} marginTop={2}>
         <Text
@@ -90,8 +86,8 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
             <>
               <MenuButton
                 onClick={() => {
-                  close()
-                  onEdit()
+                  close();
+                  onEdit();
                 }}
               >
                 <HStack gap={2}>
@@ -103,11 +99,11 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
               </MenuButton>
               <MenuButton
                 onClick={() => {
-                  close()
-                  setDeleteDialogOpen(true)
+                  close();
+                  setDeleteDialogOpen(true);
                 }}
                 color="text-danger"
-                _hover={{ backgroundColor: 'fill-gray', color: 'text-danger' }}
+                _hover={{backgroundColor: 'fill-gray', color: 'text-danger'}}
               >
                 <HStack gap={2} color="text-danger">
                   <MdDelete size={18} />
@@ -131,5 +127,5 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
         onConfirm={onDelete}
       />
     </Flex>
-  )
+  );
 }

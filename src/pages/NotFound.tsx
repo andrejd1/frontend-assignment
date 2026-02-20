@@ -19,7 +19,8 @@ export function NotFound() {
       backgroundColor="fill-gray"
       padding={spacing.page}
     >
-      <Card as={VStack}
+      <Card
+        as={VStack}
         gap={spacing.stackCard}
         align="center"
         maxWidth="640px"

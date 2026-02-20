@@ -1,85 +1,90 @@
-import { Box, Flex, Heading, HStack, Input, Text, Textarea, VStack } from '@chakra-ui/react'
-import { RiArrowLeftLine, RiCheckLine } from 'react-icons/ri'
-import { MdDelete } from 'react-icons/md'
-import { Link, useNavigate } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useMemo, useState } from 'react'
-import { Button, Card, ConfirmDialog } from '../components'
-import { spacing } from '../design-system/spacing'
-import { createNewTaskSchema, type NewTaskFormValues } from '../schemas/task'
-import { useCreateTaskMutation, useDeleteTaskMutation, useTaskQuery, useUpdateTaskMutation } from '../api/taskQueries'
-import { DashboardHeader } from '../components/DashboardHeader'
+import {Box, Flex, Heading, HStack, Input, Text, Textarea, VStack} from '@chakra-ui/react';
+import {RiArrowLeftLine, RiCheckLine} from 'react-icons/ri';
+import {MdDelete} from 'react-icons/md';
+import {Link, useNavigate} from '@tanstack/react-router';
+import {useTranslation} from 'react-i18next';
+import {Controller, useForm} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useEffect, useMemo, useState} from 'react';
+import {Button, Card, ConfirmDialog} from '../components';
+import {spacing} from '../design-system/spacing';
+import {createNewTaskSchema, type NewTaskFormValues} from '../schemas/task';
+import {
+  useCreateTaskMutation,
+  useDeleteTaskMutation,
+  useTaskQuery,
+  useUpdateTaskMutation,
+} from '../api/taskQueries';
+import {DashboardHeader} from '../components/DashboardHeader';
 
 export interface TaskFormProps {
-  taskId?: string
+  taskId?: string;
 }
 
-export function TaskForm({ taskId }: TaskFormProps) {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
-  const isEdit = Boolean(taskId)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const createTaskMutation = useCreateTaskMutation()
-  const updateTaskMutation = useUpdateTaskMutation()
-  const deleteTaskMutation = useDeleteTaskMutation()
-  const { data: task, isLoading: taskLoading, isError: taskError } = useTaskQuery(taskId)
+export function TaskForm({taskId}: TaskFormProps) {
+  const {t} = useTranslation();
+  const navigate = useNavigate();
+  const isEdit = Boolean(taskId);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const createTaskMutation = useCreateTaskMutation();
+  const updateTaskMutation = useUpdateTaskMutation();
+  const deleteTaskMutation = useDeleteTaskMutation();
+  const {data: task, isLoading: taskLoading, isError: taskError} = useTaskQuery(taskId);
 
-  const schema = useMemo(() => createNewTaskSchema(t), [t])
+  const schema = useMemo(() => createNewTaskSchema(t), [t]);
 
   const {
     control,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: {isSubmitting},
   } = useForm<NewTaskFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { title: '', description: '' },
+    defaultValues: {title: '', description: ''},
     mode: 'onSubmit',
-  })
+  });
 
   useEffect(() => {
     if (task) {
-      reset({ title: task.title, description: task.description })
+      reset({title: task.title, description: task.description});
     }
-  }, [task, reset])
+  }, [task, reset]);
 
   useEffect(() => {
     if (isEdit && taskError) {
-      navigate({ to: '/' })
+      navigate({to: '/'});
     }
-  }, [isEdit, taskError, navigate])
+  }, [isEdit, taskError, navigate]);
 
   const onSubmit = async (data: NewTaskFormValues) => {
     if (isEdit && taskId) {
       await updateTaskMutation.mutateAsync({
         id: taskId,
-        updates: { title: data.title, description: data.description },
-      })
+        updates: {title: data.title, description: data.description},
+      });
     } else {
       await createTaskMutation.mutateAsync({
         title: data.title,
         description: data.description,
-      })
+      });
     }
-    navigate({ to: '/' })
-  }
+    navigate({to: '/'});
+  };
 
   const onDiscard = () => {
-    navigate({ to: '/' })
-  }
+    navigate({to: '/'});
+  };
 
   const onDelete = () => {
     if (taskId) {
       deleteTaskMutation.mutate(taskId, {
-        onSuccess: () => navigate({ to: '/' }),
-      })
+        onSuccess: () => navigate({to: '/'}),
+      });
     }
-  }
+  };
 
   const isPending =
-    createTaskMutation.isPending || updateTaskMutation.isPending || deleteTaskMutation.isPending
+    createTaskMutation.isPending || updateTaskMutation.isPending || deleteTaskMutation.isPending;
 
   if (isEdit && taskLoading) {
     return (
@@ -89,22 +94,22 @@ export function TaskForm({ taskId }: TaskFormProps) {
           <Text color="text-secondary">{t('auth.loading')}</Text>
         </Flex>
       </Box>
-    )
+    );
   }
 
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{ base: 4, md: spacing.page }}>
+      <Box flex="1" paddingX={{base: 4, md: spacing.page}}>
         <Card
           maxWidth="1280px"
           marginX="auto"
           borderRadius="24px"
-          padding={{ base: 4, sm: spacing.card }}
+          padding={{base: 4, sm: spacing.card}}
         >
           <HStack gap={spacing.stack} marginBottom={spacing.card} alignItems="flex-start">
-            <Link to="/" aria-label="Go back" style={{ display: 'flex' }}>
+            <Link to="/" aria-label="Go back" style={{display: 'flex'}}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -114,7 +119,7 @@ export function TaskForm({ taskId }: TaskFormProps) {
                 borderRadius="full"
                 backgroundColor="fill-gray"
                 color="text-primary"
-                _hover={{ backgroundColor: 'fill-gray-hover' }}
+                _hover={{backgroundColor: 'fill-gray-hover'}}
                 transition="background-color 0.2s ease"
               >
                 <RiArrowLeftLine size={17} />
@@ -144,8 +149,8 @@ export function TaskForm({ taskId }: TaskFormProps) {
                 <Controller
                   name="title"
                   control={control}
-                  render={({ field, fieldState }) => {
-                    const hasError = Boolean(fieldState.error)
+                  render={({field, fieldState}) => {
+                    const hasError = Boolean(fieldState.error);
                     return (
                       <>
                         <Input
@@ -176,7 +181,7 @@ export function TaskForm({ taskId }: TaskFormProps) {
                           </Text>
                         )}
                       </>
-                    )
+                    );
                   }}
                 />
               </Box>
@@ -193,8 +198,8 @@ export function TaskForm({ taskId }: TaskFormProps) {
                 <Controller
                   name="description"
                   control={control}
-                  render={({ field, fieldState }) => {
-                    const hasError = Boolean(fieldState.error)
+                  render={({field, fieldState}) => {
+                    const hasError = Boolean(fieldState.error);
                     return (
                       <>
                         <Textarea
@@ -224,7 +229,7 @@ export function TaskForm({ taskId }: TaskFormProps) {
                           </Text>
                         )}
                       </>
-                    )
+                    );
                   }}
                 />
               </Box>
@@ -235,7 +240,7 @@ export function TaskForm({ taskId }: TaskFormProps) {
                 variant="ghost"
                 onClick={onDiscard}
                 disabled={isSubmitting || isPending}
-                _hover={{ backgroundColor: 'fill-gray-hover' }}
+                _hover={{backgroundColor: 'fill-gray-hover'}}
                 transition="background-color 0.2s ease"
               >
                 {isEdit ? t('task.discardChanges') : t('task.discard')}
@@ -250,7 +255,9 @@ export function TaskForm({ taskId }: TaskFormProps) {
                   >
                     <HStack gap={spacing.inline} color="fill-gray">
                       <MdDelete size={18} />
-                      <Text as="span" color="fill-gray">{t('task.delete')}</Text>
+                      <Text as="span" color="fill-gray">
+                        {t('task.delete')}
+                      </Text>
                     </HStack>
                   </Button>
                 )}
@@ -280,5 +287,5 @@ export function TaskForm({ taskId }: TaskFormProps) {
         />
       )}
     </Box>
-  )
+  );
 }

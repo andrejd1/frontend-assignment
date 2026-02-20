@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { Button } from './Button'
+import type {Meta, StoryObj} from '@storybook/react';
+import {Button} from './Button';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -14,13 +14,13 @@ const meta: Meta<typeof Button> = {
       control: 'select',
       options: ['sm', 'md', 'lg'],
     },
-    fullWidth: { control: 'boolean' },
+    fullWidth: {control: 'boolean'},
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Button>
+type Story = StoryObj<typeof Button>;
 
 export const Brand: Story = {
   args: {
@@ -28,7 +28,7 @@ export const Brand: Story = {
     variant: 'brand',
     size: 'md',
   },
-}
+};
 
 export const Ghost: Story = {
   args: {
@@ -36,7 +36,7 @@ export const Ghost: Story = {
     variant: 'ghost',
     size: 'md',
   },
-}
+};
 
 export const Small: Story = {
   args: {
@@ -44,7 +44,7 @@ export const Small: Story = {
     variant: 'brand',
     size: 'sm',
   },
-}
+};
 
 export const Large: Story = {
   args: {
@@ -52,7 +52,7 @@ export const Large: Story = {
     variant: 'brand',
     size: 'lg',
   },
-}
+};
 
 export const FullWidth: Story = {
   args: {
@@ -60,4 +60,4 @@ export const FullWidth: Story = {
     variant: 'brand',
     fullWidth: true,
   },
-}
+};

@@ -7,7 +7,7 @@ import {
   register,
   getCurrentUser,
 } from './auth';
-import { apiClient } from './client';
+import {apiClient} from './client';
 
 jest.mock('./client', () => ({
   apiClient: {
@@ -32,13 +32,13 @@ describe('auth storage', () => {
   });
 
   it('storeTokens and getStored* round-trip', () => {
-    storeTokens({ accessToken: 'at', refreshToken: 'rt' });
+    storeTokens({accessToken: 'at', refreshToken: 'rt'});
     expect(getStoredAccessToken()).toBe('at');
     expect(getStoredRefreshToken()).toBe('rt');
   });
 
   it('clearTokens removes both', () => {
-    storeTokens({ accessToken: 'at', refreshToken: 'rt' });
+    storeTokens({accessToken: 'at', refreshToken: 'rt'});
     clearTokens();
     expect(getStoredAccessToken()).toBeNull();
     expect(getStoredRefreshToken()).toBeNull();
@@ -47,9 +47,9 @@ describe('auth storage', () => {
 
 describe('login', () => {
   it('posts credentials and returns tokens', async () => {
-    const tokens = { accessToken: 'at', refreshToken: 'rt' };
-    mockedApiClient.post.mockResolvedValueOnce({ data: tokens });
-    const result = await login({ username: 'alice', password: 'secret' });
+    const tokens = {accessToken: 'at', refreshToken: 'rt'};
+    mockedApiClient.post.mockResolvedValueOnce({data: tokens});
+    const result = await login({username: 'alice', password: 'secret'});
     expect(mockedApiClient.post).toHaveBeenCalledWith('/api/login', {
       username: 'alice',
       password: 'secret',
@@ -59,14 +59,14 @@ describe('login', () => {
 
   it('propagates API errors', async () => {
     mockedApiClient.post.mockRejectedValueOnce(new Error('Invalid credentials'));
-    await expect(login({ username: 'x', password: 'y' })).rejects.toThrow('Invalid credentials');
+    await expect(login({username: 'x', password: 'y'})).rejects.toThrow('Invalid credentials');
   });
 });
 
 describe('register', () => {
   it('posts credentials and returns tokens', async () => {
-    const tokens = { accessToken: 'at', refreshToken: 'rt' };
-    mockedApiClient.post.mockResolvedValueOnce({ data: tokens });
+    const tokens = {accessToken: 'at', refreshToken: 'rt'};
+    mockedApiClient.post.mockResolvedValueOnce({data: tokens});
     const result = await register({
       username: 'bob',
       password: 'pass',
@@ -83,8 +83,8 @@ describe('register', () => {
 
 describe('getCurrentUser', () => {
   it('gets /api/user/me and returns user', async () => {
-    const user = { id: '1', username: 'alice' };
-    mockedApiClient.get.mockResolvedValueOnce({ data: user });
+    const user = {id: '1', username: 'alice'};
+    mockedApiClient.get.mockResolvedValueOnce({data: user});
     const result = await getCurrentUser();
     expect(mockedApiClient.get).toHaveBeenCalledWith('/api/user/me');
     expect(result).toEqual(user);
