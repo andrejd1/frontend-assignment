@@ -3,7 +3,14 @@ import {
   HStack,
   Text,
 } from '@chakra-ui/react'
+import type { ComponentType, ReactNode } from 'react'
 import { spacing } from '../design-system/spacing'
+
+type WithChildren = ComponentType<{ children?: ReactNode }>
+type WithChildrenAndProps = ComponentType<{ children?: ReactNode; [key: string]: unknown }>
+const Positioner = Dialog.Positioner as WithChildren
+const Content = Dialog.Content as WithChildrenAndProps
+const Title = Dialog.Title as WithChildren
 import { Button } from './Button'
 
 export interface ConfirmDialogProps {
@@ -40,16 +47,16 @@ export function ConfirmDialog({
   return (
     <Dialog.Root
       open={open}
-      onOpenChange={(e) => onOpenChange(e.open)}
+      onOpenChange={(e: { open: boolean }) => onOpenChange(e.open)}
       role="alertdialog"
       size="sm"
       closeOnInteractOutside={variant !== 'danger'}
     >
       <Dialog.Backdrop />
-      <Dialog.Positioner>
-        <Dialog.Content padding={spacing.field} marginTop={spacing.card} gap={spacing.section}>
+      <Positioner>
+        <Content padding={spacing.field} marginTop={spacing.card} gap={spacing.section}>
           <Dialog.Header>
-            <Dialog.Title>{title}</Dialog.Title>
+            <Title>{title}</Title>
           </Dialog.Header>
           <Dialog.Body>
             <Text color="text-secondary" fontSize="text.base" lineHeight="1.5">
@@ -74,8 +81,8 @@ export function ConfirmDialog({
               </Button>
             </HStack>
           </Dialog.Footer>
-        </Dialog.Content>
-      </Dialog.Positioner>
+        </Content>
+      </Positioner>
     </Dialog.Root>
   )
 }
