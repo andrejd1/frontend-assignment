@@ -3,6 +3,7 @@
 - This repository is built on [Create React App](https://github.com/facebook/create-react-app) with TypeScript configuration
 - [Chakra Theme](https://chakra-ui.com/) is set up with all the colors and sizes
 - For unit testing, [Jest](https://jestjs.io/) is already installed
+- E2E tests use [Cypress](https://www.cypress.io/). Start the app (`npm start`), then run `npm run cypress:open` or `npm run cypress:run`
 - You will use our prettier, eslint, and typescript config for static testing <br/> `npm run eslint && npm run prettify && npm run typecheck`
 
 For a quick start follow these commands

@@ -13,6 +13,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "prettify": "prettier --write --config ./.prettierrc --ignore-path ./.prettierignore .",
     "eslint": "eslint --cache --fix -c ./.eslintrc.json .",
     "typecheck": "tsc --project tsconfig.json --noEmit"
