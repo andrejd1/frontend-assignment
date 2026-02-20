@@ -1,60 +1,100 @@
-import {Box, Flex, Heading, HStack, Input, Text, Textarea, VStack} from '@chakra-ui/react';
-import {RiArrowLeftLine, RiCheckLine} from 'react-icons/ri';
-import {Link, useNavigate} from '@tanstack/react-router';
-import {useTranslation} from 'react-i18next';
-import {Controller, useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {useMemo} from 'react';
-import {Button} from '../components';
-import {spacing} from '../design-system/spacing';
-import {createNewTaskSchema, type NewTaskFormValues} from '../schemas/task';
-import {useCreateTaskMutation} from '../api/taskQueries';
-import {DashboardHeader} from '../components/DashboardHeader';
+import { Box, Flex, Heading, HStack, Input, Text, Textarea, VStack } from '@chakra-ui/react'
+import { RiArrowLeftLine, RiCheckLine } from 'react-icons/ri'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useMemo } from 'react'
+import { Button } from '../components'
+import { spacing } from '../design-system/spacing'
+import { createNewTaskSchema, type NewTaskFormValues } from '../schemas/task'
+import { useCreateTaskMutation, useTaskQuery, useUpdateTaskMutation } from '../api/taskQueries'
+import { DashboardHeader } from '../components/DashboardHeader'
 
-export function NewTask() {
-  const {t} = useTranslation();
-  const navigate = useNavigate();
-  const createTaskMutation = useCreateTaskMutation();
+export interface TaskFormProps {
+  taskId?: string
+}
 
-  const schema = useMemo(() => createNewTaskSchema(t), [t]);
+export function TaskForm({ taskId }: TaskFormProps) {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const isEdit = Boolean(taskId)
+  const createTaskMutation = useCreateTaskMutation()
+  const updateTaskMutation = useUpdateTaskMutation()
+  const { data: task, isLoading: taskLoading, isError: taskError } = useTaskQuery(taskId)
+
+  const schema = useMemo(() => createNewTaskSchema(t), [t])
 
   const {
     control,
     handleSubmit,
-    formState: {isSubmitting},
+    reset,
+    formState: { isSubmitting },
   } = useForm<NewTaskFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {title: '', description: ''},
+    defaultValues: { title: '', description: '' },
     mode: 'onSubmit',
-  });
+  })
+
+  useEffect(() => {
+    if (task) {
+      reset({ title: task.title, description: task.description })
+    }
+  }, [task, reset])
+
+  useEffect(() => {
+    if (isEdit && taskError) {
+      navigate({ to: '/' })
+    }
+  }, [isEdit, taskError, navigate])
 
   const onSubmit = async (data: NewTaskFormValues) => {
-    await createTaskMutation.mutateAsync({
-      title: data.title,
-      description: data.description,
-    });
-    navigate({to: '/'});
-  };
+    if (isEdit && taskId) {
+      await updateTaskMutation.mutateAsync({
+        id: taskId,
+        updates: { title: data.title, description: data.description },
+      })
+    } else {
+      await createTaskMutation.mutateAsync({
+        title: data.title,
+        description: data.description,
+      })
+    }
+    navigate({ to: '/' })
+  }
 
   const onDiscard = () => {
-    navigate({to: '/'});
-  };
+    navigate({ to: '/' })
+  }
+
+  const isPending = createTaskMutation.isPending || updateTaskMutation.isPending
+
+  if (isEdit && taskLoading) {
+    return (
+      <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
+        <DashboardHeader />
+        <Flex flex="1" alignItems="center" justifyContent="center" padding={spacing.card}>
+          <Text color="text-secondary">{t('auth.loading')}</Text>
+        </Flex>
+      </Box>
+    )
+  }
 
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{base: 4, md: spacing.page}}>
+      <Box flex="1" paddingX={{ base: 4, md: spacing.page }}>
         <Box
           maxWidth="1280px"
           marginX="auto"
           backgroundColor="fill-white"
           borderRadius="24px"
-          padding={{base: 4, sm: spacing.card}}
+          padding={{ base: 4, sm: spacing.card }}
           boxShadow="0 1px 3px rgba(0,0,0,0.08)"
         >
-          <HStack gap={spacing.stack} marginBottom={spacing.card} alignItems="center">
-            <Link to="/" aria-label="Go back" style={{display: 'flex'}}>
+          <HStack gap={spacing.stack} marginBottom={spacing.card} alignItems="flex-start">
+            <Link to="/" aria-label="Go back" style={{ display: 'flex' }}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -64,14 +104,16 @@ export function NewTask() {
                 borderRadius="full"
                 backgroundColor="fill-gray"
                 color="text-primary"
-                _hover={{backgroundColor: 'fill-gray-hover'}}
+                _hover={{ backgroundColor: 'fill-gray-hover' }}
               >
                 <RiArrowLeftLine size={17} />
               </Box>
             </Link>
-            <Heading size="2xl" color="text-primary" fontWeight="heading.1" lineHeight="1.3">
-              {t('task.newTask')}
-            </Heading>
+            <Box flex="1" minWidth={0} alignSelf="center">
+              <Heading size="2xl" color="text-primary" fontWeight="heading.1" lineHeight="1.3">
+                {isEdit && task ? task.title : t('task.newTask')}
+              </Heading>
+            </Box>
           </HStack>
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -91,8 +133,8 @@ export function NewTask() {
                 <Controller
                   name="title"
                   control={control}
-                  render={({field, fieldState}) => {
-                    const hasError = Boolean(fieldState.error);
+                  render={({ field, fieldState }) => {
+                    const hasError = Boolean(fieldState.error)
                     return (
                       <>
                         <Input
@@ -123,7 +165,7 @@ export function NewTask() {
                           </Text>
                         )}
                       </>
-                    );
+                    )
                   }}
                 />
               </Box>
@@ -140,8 +182,8 @@ export function NewTask() {
                 <Controller
                   name="description"
                   control={control}
-                  render={({field, fieldState}) => {
-                    const hasError = Boolean(fieldState.error);
+                  render={({ field, fieldState }) => {
+                    const hasError = Boolean(fieldState.error)
                     return (
                       <>
                         <Textarea
@@ -171,7 +213,7 @@ export function NewTask() {
                           </Text>
                         )}
                       </>
-                    );
+                    )
                   }}
                 />
               </Box>
@@ -181,14 +223,14 @@ export function NewTask() {
                 type="button"
                 variant="ghost"
                 onClick={onDiscard}
-                disabled={isSubmitting || createTaskMutation.isPending}
+                disabled={isSubmitting || isPending}
               >
-                {t('task.discard')}
+                {isEdit ? t('task.discardChanges') : t('task.discard')}
               </Button>
-              <Button type="submit" disabled={isSubmitting || createTaskMutation.isPending}>
+              <Button type="submit" disabled={isSubmitting || isPending}>
                 <HStack gap={spacing.inline} color="text-white">
                   <Text as="span" color="text-white">
-                    {t('task.createTask')}
+                    {isEdit ? t('task.saveChanges') : t('task.createTask')}
                   </Text>
                   <RiCheckLine size={20} />
                 </HStack>
@@ -198,5 +240,5 @@ export function NewTask() {
         </Box>
       </Box>
     </Box>
-  );
+  )
 }

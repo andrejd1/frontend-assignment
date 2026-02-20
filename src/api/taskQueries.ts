@@ -8,6 +8,7 @@ import {
 import {
   createTask,
   deleteTask as deleteTaskApi,
+  fetchTask,
   fetchTaskList,
   setTaskCompleted,
   updateTask as updateTaskApi,
@@ -17,6 +18,7 @@ import {
 export const taskKeys = {
   all: ['tasks'] as const,
   list: () => [...taskKeys.all, 'list'] as const,
+  detail: (id: string) => [...taskKeys.all, 'detail', id] as const,
 };
 
 export function useTaskListQuery(
@@ -28,6 +30,21 @@ export function useTaskListQuery(
   return useQuery({
     queryKey: taskKeys.list(),
     queryFn: fetchTaskList,
+    ...options,
+  });
+}
+
+export function useTaskQuery(
+  id: string | undefined,
+  options?: {enabled?: boolean} & Omit<
+    UseQueryOptions<Awaited<ReturnType<typeof fetchTask>>>,
+    'queryKey' | 'queryFn'
+  >
+) {
+  return useQuery({
+    queryKey: taskKeys.detail(id!),
+    queryFn: () => fetchTask(id!),
+    enabled: Boolean(id),
     ...options,
   });
 }

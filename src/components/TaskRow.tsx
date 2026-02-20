@@ -1,21 +1,21 @@
-import {Box, Flex, HStack, Text} from '@chakra-ui/react';
-import {useTranslation} from 'react-i18next';
-import {RiCheckLine, RiPencilFill} from 'react-icons/ri';
-import {MdDelete} from 'react-icons/md';
-import {BsThreeDotsVertical} from 'react-icons/bs';
-import {MenuButton, PopupMenu} from './index';
-import type {Task} from '../types/task';
-import {spacing} from '../design-system/spacing';
+import { Box, Flex, HStack, Text } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
+import { RiCheckLine, RiPencilFill } from 'react-icons/ri'
+import { MdDelete } from 'react-icons/md'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { MenuButton, PopupMenu } from './index'
+import type { Task } from '../types/task'
+import { spacing } from '../design-system/spacing'
 
 export interface TaskRowProps {
-  task: Task;
-  onToggle: () => void;
-  onDelete: () => void;
-  onEdit: () => void;
+  task: Task
+  onToggle: () => void
+  onDelete: () => void
+  onEdit: () => void
 }
 
-export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
-  const {t} = useTranslation();
+export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
+  const { t } = useTranslation()
   const threeDotsTrigger = (
     <Box
       display="flex"
@@ -25,12 +25,12 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
       height="32px"
       borderRadius="100px"
       color="text-primary"
-      _hover={{backgroundColor: 'fill-gray'}}
+      _hover={{ backgroundColor: 'fill-gray' }}
       aria-label={t('task.edit')}
     >
       <BsThreeDotsVertical size={16} />
     </Box>
-  );
+  )
 
   return (
     <Flex
@@ -38,8 +38,10 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
       gap={3}
       paddingX={2}
       borderRadius="8px"
-      _hover={{boxShadow: '0 4px 12px rgba(0,0,0,0.15)'}}
-      transition="box-shadow 0.15s"
+      cursor="pointer"
+      _hover={{ boxShadow: '2px 4px 12px rgba(0,0,0,0.15)', padding: '8px' }}
+      transition="box-shadow 0.25s, padding 0.25s"
+      onClick={() => onEdit()}
     >
       <Box marginTop={1} flexShrink={0}>
         <Box
@@ -102,8 +104,8 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
           <>
             <MenuButton
               onClick={() => {
-                close();
-                onEdit();
+                close()
+                onEdit()
               }}
             >
               <HStack gap={2}>
@@ -115,11 +117,11 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
             </MenuButton>
             <MenuButton
               onClick={() => {
-                close();
-                onDelete();
+                close()
+                onDelete()
               }}
               color="text-danger"
-              _hover={{backgroundColor: 'fill-gray', color: 'text-danger'}}
+              _hover={{ backgroundColor: 'fill-gray', color: 'text-danger' }}
             >
               <HStack gap={2} color="text-danger">
                 <MdDelete size={18} />
@@ -132,5 +134,5 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
         )}
       </PopupMenu>
     </Flex>
-  );
+  )
 }

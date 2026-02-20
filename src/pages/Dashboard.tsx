@@ -1,6 +1,6 @@
 import {Box, Flex, Heading, HStack, Image, Text, VStack} from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
-import {Link} from '@tanstack/react-router';
+import {Link, useNavigate} from '@tanstack/react-router';
 import logoUrl from '../assets/logoBig.svg';
 import {Button, DashboardHeader, TaskRow} from '../components';
 import {spacing} from '../design-system/spacing';
@@ -10,6 +10,7 @@ import {displayName, formatDashboardDate} from '../utils';
 
 export function Dashboard() {
   const {t, i18n} = useTranslation();
+  const navigate = useNavigate();
   const {user, isAuthenticated} = useAuth();
   const {data: tasks = [], isLoading: tasksLoading} = useTaskListQuery({
     enabled: isAuthenticated,
@@ -107,9 +108,9 @@ export function Dashboard() {
                           })
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
-                        onEdit={() => {
-                          // TODO: navigate to edit or open edit modal
-                        }}
+                        onEdit={() =>
+                          navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}})
+                        }
                       />
                     ))}
                   </VStack>
@@ -140,7 +141,9 @@ export function Dashboard() {
                           })
                         }
                         onDelete={() => deleteMutation.mutate(task.id)}
-                        onEdit={() => {}}
+                        onEdit={() =>
+                          navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}})
+                        }
                       />
                     ))}
                   </VStack>

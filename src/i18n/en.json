@@ -59,6 +59,8 @@
     "createTask": "Create task",
     "fieldMandatory": "This field is mandatory.",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "discardChanges": "Discard changes",
+    "saveChanges": "Save changes"
   }
 }

@@ -2,13 +2,14 @@ import {createFileRoute, Navigate} from '@tanstack/react-router';
 import {TaskForm} from '../pages/TaskForm';
 import {useAuth} from '../context/AuthContext';
 
-function NewTaskRouteComponent() {
+export const Route = createFileRoute('/tasks/$taskId/edit')({
+  component: EditTaskRouteComponent,
+});
+
+function EditTaskRouteComponent() {
   const {isAuthenticated, isLoading} = useAuth();
+  const {taskId} = Route.useParams();
   if (isLoading) return null;
   if (!isAuthenticated) return <Navigate to="/login" />;
-  return <TaskForm />;
+  return <TaskForm taskId={taskId} />;
 }
-
-export const Route = createFileRoute('/tasks/new')({
-  component: NewTaskRouteComponent,
-});

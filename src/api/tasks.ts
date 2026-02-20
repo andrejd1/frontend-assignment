@@ -30,6 +30,11 @@ export async function fetchTaskList(): Promise<Task[]> {
   return (data.todos ?? []).map(mapTodoToTask);
 }
 
+export async function fetchTask(id: string): Promise<Task> {
+  const {data} = await apiClient.get<TodoDto>(`/api/todo/${id}`);
+  return mapTodoToTask(data);
+}
+
 export interface CreateTaskPayload {
   title: string;
   description?: string;
