@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 import { RiPencilFill } from 'react-icons/ri'
 import { MdDelete } from 'react-icons/md'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { Checkbox, MenuButton, PopupMenu } from './index'
+import { Checkbox, ConfirmDialog, MenuButton, PopupMenu } from './index'
 import type { Task } from '../types/task'
 import { spacing } from '../design-system/spacing'
 
@@ -16,6 +17,7 @@ export interface TaskRowProps {
 
 export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
   const { t } = useTranslation()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const threeDotsTrigger = (
     <Box
       display="flex"
@@ -102,7 +104,7 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
               <MenuButton
                 onClick={() => {
                   close()
-                  onDelete()
+                  setDeleteDialogOpen(true)
                 }}
                 color="text-danger"
                 _hover={{ backgroundColor: 'fill-gray', color: 'text-danger' }}
@@ -118,6 +120,16 @@ export function TaskRow({ task, onToggle, onDelete, onEdit }: TaskRowProps) {
           )}
         </PopupMenu>
       </Box>
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        title={t('task.deleteConfirmTitle')}
+        description={t('task.deleteConfirmMessage')}
+        confirmLabel={t('task.delete')}
+        cancelLabel={t('dialog.cancel')}
+        variant="danger"
+        onConfirm={onDelete}
+      />
     </Flex>
   )
 }

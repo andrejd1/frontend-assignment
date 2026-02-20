@@ -60,7 +60,12 @@
     "fieldMandatory": "This field is mandatory.",
     "edit": "Edit",
     "delete": "Delete",
+    "deleteConfirmTitle": "Delete task?",
+    "deleteConfirmMessage": "This action cannot be undone.",
     "discardChanges": "Discard changes",
     "saveChanges": "Save changes"
+  },
+  "dialog": {
+    "cancel": "Cancel"
   }
 }

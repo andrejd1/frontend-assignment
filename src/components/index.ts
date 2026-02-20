@@ -1,6 +1,7 @@
 export { Button } from './Button'
 export { Card } from './Card'
 export { Checkbox } from './Checkbox'
+export { ConfirmDialog } from './ConfirmDialog'
 export { DashboardHeader } from './DashboardHeader'
 export { EmptyStateBlock } from './EmptyStateBlock'
 export { MenuButton } from './MenuButton'

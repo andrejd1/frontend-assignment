@@ -1,14 +1,15 @@
 import { Box, Flex, Heading, HStack, Input, Text, Textarea, VStack } from '@chakra-ui/react'
 import { RiArrowLeftLine, RiCheckLine } from 'react-icons/ri'
+import { MdDelete } from 'react-icons/md'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useMemo } from 'react'
-import { Button, Card } from '../components'
+import { useEffect, useMemo, useState } from 'react'
+import { Button, Card, ConfirmDialog } from '../components'
 import { spacing } from '../design-system/spacing'
 import { createNewTaskSchema, type NewTaskFormValues } from '../schemas/task'
-import { useCreateTaskMutation, useTaskQuery, useUpdateTaskMutation } from '../api/taskQueries'
+import { useCreateTaskMutation, useDeleteTaskMutation, useTaskQuery, useUpdateTaskMutation } from '../api/taskQueries'
 import { DashboardHeader } from '../components/DashboardHeader'
 
 export interface TaskFormProps {
@@ -19,8 +20,10 @@ export function TaskForm({ taskId }: TaskFormProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const isEdit = Boolean(taskId)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const createTaskMutation = useCreateTaskMutation()
   const updateTaskMutation = useUpdateTaskMutation()
+  const deleteTaskMutation = useDeleteTaskMutation()
   const { data: task, isLoading: taskLoading, isError: taskError } = useTaskQuery(taskId)
 
   const schema = useMemo(() => createNewTaskSchema(t), [t])
@@ -67,7 +70,16 @@ export function TaskForm({ taskId }: TaskFormProps) {
     navigate({ to: '/' })
   }
 
-  const isPending = createTaskMutation.isPending || updateTaskMutation.isPending
+  const onDelete = () => {
+    if (taskId) {
+      deleteTaskMutation.mutate(taskId, {
+        onSuccess: () => navigate({ to: '/' }),
+      })
+    }
+  }
+
+  const isPending =
+    createTaskMutation.isPending || updateTaskMutation.isPending || deleteTaskMutation.isPending
 
   if (isEdit && taskLoading) {
     return (
@@ -217,27 +229,56 @@ export function TaskForm({ taskId }: TaskFormProps) {
                 />
               </Box>
             </VStack>
-            <Flex justifyContent="space-between" flexWrap="wrap" marginTop={spacing.card}>
+            <Flex justifyContent="space-between" flexWrap="wrap" marginTop={spacing.card} gap={3}>
               <Button
                 type="button"
                 variant="ghost"
                 onClick={onDiscard}
                 disabled={isSubmitting || isPending}
+                _hover={{ backgroundColor: 'fill-gray-hover' }}
+                transition="background-color 0.2s ease"
               >
                 {isEdit ? t('task.discardChanges') : t('task.discard')}
               </Button>
-              <Button type="submit" disabled={isSubmitting || isPending}>
-                <HStack gap={spacing.inline} color="text-white">
-                  <Text as="span" color="text-white">
-                    {isEdit ? t('task.saveChanges') : t('task.createTask')}
-                  </Text>
-                  <RiCheckLine size={20} />
-                </HStack>
-              </Button>
+              <HStack gap={3} flexWrap="wrap">
+                {isEdit && (
+                  <Button
+                    type="button"
+                    variant="danger"
+                    onClick={() => setDeleteDialogOpen(true)}
+                    disabled={isSubmitting || isPending}
+                  >
+                    <HStack gap={spacing.inline} color="fill-gray">
+                      <MdDelete size={18} />
+                      <Text as="span" color="fill-gray">{t('task.delete')}</Text>
+                    </HStack>
+                  </Button>
+                )}
+                <Button type="submit" disabled={isSubmitting || isPending}>
+                  <HStack gap={spacing.inline} color="text-white">
+                    <Text as="span" color="text-white">
+                      {isEdit ? t('task.saveChanges') : t('task.createTask')}
+                    </Text>
+                    <RiCheckLine size={20} />
+                  </HStack>
+                </Button>
+              </HStack>
             </Flex>
           </form>
         </Card>
       </Box>
+      {isEdit && (
+        <ConfirmDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          title={t('task.deleteConfirmTitle')}
+          description={t('task.deleteConfirmMessage')}
+          confirmLabel={t('task.delete')}
+          cancelLabel={t('dialog.cancel')}
+          variant="danger"
+          onConfirm={onDelete}
+        />
+      )}
     </Box>
   )
 }

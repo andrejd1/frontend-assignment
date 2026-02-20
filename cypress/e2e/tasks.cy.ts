@@ -54,11 +54,26 @@ describe('Task management', () => {
     cy.contains(updatedTitle).should('be.visible')
   })
 
+  it('deletes a task from edit page', () => {
+    const toDeleteTitle = `Delete from edit ${uniqueId}`
+    cy.contains('Add task').click()
+    cy.get('#new-task-title', { timeout: 10000 }).type(toDeleteTitle)
+    cy.contains('Create task').click()
+    cy.contains(toDeleteTitle, { timeout: 10000 }).should('be.visible')
+    cy.contains(toDeleteTitle).click()
+    cy.url().should('match', /\/tasks\/[^/]+\/edit/)
+    cy.contains('button', 'Delete').click()
+    cy.get('[role="alertdialog"]').should('be.visible').contains('button', 'Delete').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
+    cy.contains(toDeleteTitle).should('not.exist')
+  })
+
   it('deletes a task via menu', () => {
     const updatedTitle = `${taskTitle} (edited)`
     cy.contains(updatedTitle, { timeout: 10000 }).should('be.visible')
     cy.contains(updatedTitle).parent().parent().find('[aria-label="Edit"]').click()
     cy.contains('Delete').click()
+    cy.get('[role="alertdialog"]').should('be.visible').contains('button', 'Delete').click()
     cy.contains(updatedTitle).should('not.exist')
   })
 })
