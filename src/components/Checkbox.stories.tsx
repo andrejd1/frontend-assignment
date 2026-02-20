@@ -38,11 +38,13 @@ export const Disabled: Story = {
   },
 };
 
+function InteractiveCheckbox() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Checkbox checked={checked} onChange={() => setChecked((c) => !c)} aria-label="Toggle task" />
+  );
+}
+
 export const Interactive: Story = {
-  render: function InteractiveCheckbox() {
-    const [checked, setChecked] = useState(false);
-    return (
-      <Checkbox checked={checked} onChange={() => setChecked((c) => !c)} aria-label="Toggle task" />
-    );
-  },
+  render: () => <InteractiveCheckbox />,
 };
