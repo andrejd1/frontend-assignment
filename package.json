@@ -90,6 +90,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.29.0",
     "@babel/preset-typescript": "^7.27.0",
     "@tanstack/router-plugin": "^1.95.0",
     "@types/bcrypt": "^5.0.2",
@@ -110,6 +111,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.2.0",
     "nodemon": "^3.1.9",
     "vite": "^6.4.1"
   }
