@@ -12,8 +12,5 @@ export default defineConfig({
     responseTimeout: 10000,
     video: true,
     screenshotOnRunFailure: true,
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
   },
 });
