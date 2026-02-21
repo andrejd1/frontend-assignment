@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import logoUrl from '../assets/logo.svg';
 import {MenuButton} from './MenuButton';
 import {PopupMenu} from './PopupMenu';
-import {spacing} from '../design-system/spacing';
+import {spacing, spacingScale} from '../design-system/spacing';
 import {useAuth} from '../context/AuthContext';
 import {displayName} from '../utils';
 import {useNavigate} from '@tanstack/react-router';
@@ -19,7 +19,7 @@ export function DashboardHeader() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: 12,
+        gap: 8,
         borderRadius: 8,
         background: 'transparent',
         border: 'none',
@@ -69,8 +69,8 @@ export function DashboardHeader() {
       width="100%"
       alignItems="center"
       justifyContent="space-between"
-      paddingX={{base: 4, sm: spacing.page}}
-      paddingY={{base: 6, sm: spacing.pageVertical}}
+      paddingX={{base: spacingScale[4], sm: spacing.page}}
+      paddingY={{base: spacingScale[6], sm: spacing.pageVertical}}
     >
       <HStack gap={spacing.inline} cursor="pointer" onClick={() => navigate({to: '/'})}>
         <Image src={logoUrl} alt="" width="37px" height="32px" />

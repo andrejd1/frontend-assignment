@@ -34,9 +34,9 @@ const variantStyles = {
 } as const;
 
 const sizeStyles = {
-  sm: {height: '32px', padding: '0 12px', fontSize: 'text.small'},
-  md: {height: '40px', padding: '0 20px', fontSize: 'text.small'},
-  lg: {height: '48px', padding: '0 24px', fontSize: 'text.base'},
+  sm: {height: '32px', padding: '0 12px', fontSize: 'text.small', fontWeight: 'text.alternative'},
+  md: {height: '40px', padding: '0 20px', fontSize: 'text.small', fontWeight: 'text.alternative'},
+  lg: {height: '48px', padding: '0 24px', fontSize: 'text.base', fontWeight: 'text.alternative'},
 } as const;
 
 const buttonStyles = (

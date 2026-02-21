@@ -2,9 +2,9 @@ import {createSystem, defaultConfig} from '@chakra-ui/react';
 
 const fontSizes = {
   heading: {
-    1: '28px',
-    2: '24px',
-    3: '20px',
+    1: '24px',
+    2: '20px',
+    3: '18px',
   },
   text: {
     base: '16px',

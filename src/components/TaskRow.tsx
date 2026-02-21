@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Box, Flex, HStack, Text} from '@chakra-ui/react';
+import {Box, Flex, HStack, Heading, Text} from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
 import {RiPencilFill} from 'react-icons/ri';
 import {MdDelete} from 'react-icons/md';
@@ -38,9 +38,9 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
   return (
     <Flex
       alignItems="flex-start"
-      gap={3}
-      paddingX={2}
-      paddingY={2}
+      gap={spacing.inlineTight}
+      paddingX={spacing.inline}
+      paddingY={spacing.inline}
       borderRadius="8px"
       cursor="pointer"
       backgroundColor="transparent"
@@ -51,18 +51,23 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
       transition="background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease"
       onClick={() => onEdit()}
     >
-      <Box marginTop={1} flexShrink={0} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+      <Box
+        marginTop={spacing.label}
+        flexShrink={0}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      >
         <Checkbox checked={task.completed} onChange={onToggle} aria-label={task.title} />
       </Box>
-      <Box flex="1" minWidth={0} marginTop={2}>
-        <Text
-          fontSize="text.base"
-          fontWeight={task.completed ? 'text.base' : 'text.alternative'}
+      <Box flex="1" minWidth={0} marginTop={spacing.inline}>
+        <Heading
+          as="h3"
+          fontSize="heading.3"
+          fontWeight="heading.3"
           color="text-primary"
           lineHeight="24px"
         >
           {task.title}
-        </Text>
+        </Heading>
         {task.description ? (
           <Text
             fontSize="text.small"
@@ -90,7 +95,7 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
                   onEdit();
                 }}
               >
-                <HStack gap={2}>
+                <HStack gap={spacing.inline}>
                   <RiPencilFill size={18} />
                   <Text color="text-primary" fontSize="text.small">
                     {t('task.edit')}

@@ -21,7 +21,6 @@ export function Checkbox({
   return (
     <Box
       as="button"
-      type="button"
       width="32px"
       height="32px"
       borderRadius="full"

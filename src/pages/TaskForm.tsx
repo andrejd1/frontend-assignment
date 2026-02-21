@@ -7,7 +7,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useEffect, useMemo, useState} from 'react';
 import {Button, Card, ConfirmDialog} from '../components';
-import {spacing} from '../design-system/spacing';
+import {spacing, spacingScale} from '../design-system/spacing';
 import {createNewTaskSchema, type NewTaskFormValues} from '../schemas/task';
 import {
   useCreateTaskMutation,
@@ -101,12 +101,12 @@ export function TaskForm({taskId}: TaskFormProps) {
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{base: 4, md: spacing.page}}>
+      <Box flex="1" paddingX={{base: spacingScale[4], md: spacing.page}}>
         <Card
           maxWidth="1280px"
           marginX="auto"
           borderRadius="24px"
-          padding={{base: 4, sm: spacing.card}}
+          padding={{base: spacingScale[4], sm: spacing.card}}
         >
           <HStack gap={spacing.stack} marginBottom={spacing.card} alignItems="flex-start">
             <Link to="/" aria-label="Go back" style={{display: 'flex'}}>
@@ -126,7 +126,13 @@ export function TaskForm({taskId}: TaskFormProps) {
               </Box>
             </Link>
             <Box flex="1" minWidth={0} alignSelf="center">
-              <Heading size="2xl" color="text-primary" fontWeight="heading.1" lineHeight="1.3">
+              <Heading
+                as="h1"
+                color="text-primary"
+                fontSize="heading.1"
+                fontWeight="heading.1"
+                lineHeight="32px"
+              >
                 {isEdit && task ? task.title : t('task.newTask')}
               </Heading>
             </Box>
@@ -157,6 +163,10 @@ export function TaskForm({taskId}: TaskFormProps) {
                           {...field}
                           id="new-task-title"
                           type="text"
+                          fontSize="text.base"
+                          fontWeight="text.base"
+                          paddingX={spacingScale[4]}
+                          paddingY={spacing.inline}
                           placeholder={t('task.taskNamePlaceholder')}
                           autoComplete="off"
                           backgroundColor="fill-white"
@@ -205,11 +215,14 @@ export function TaskForm({taskId}: TaskFormProps) {
                         <Textarea
                           {...field}
                           id="new-task-description"
+                          fontSize="text.base"
+                          fontWeight="text.base"
+                          padding={spacingScale[4]}
                           placeholder={t('task.descriptionPlaceholder')}
                           backgroundColor="fill-white"
                           borderColor={hasError ? 'border-danger' : 'border-gray'}
                           borderRadius="4px"
-                          minHeight="100px"
+                          minHeight="104px"
                           resize="vertical"
                           _focus={{
                             borderColor: hasError ? 'border-danger' : 'border-brand',
@@ -234,7 +247,13 @@ export function TaskForm({taskId}: TaskFormProps) {
                 />
               </Box>
             </VStack>
-            <Flex justifyContent="space-between" flexWrap="wrap" marginTop={spacing.card} gap={3}>
+            <Flex
+              marginTop={spacing.card}
+              gap={3}
+              flexDirection={{base: 'column', md: 'row'}}
+              justifyContent={{md: 'space-between'}}
+              alignItems={{base: 'stretch', md: 'center'}}
+            >
               <Button
                 type="button"
                 variant="ghost"
@@ -242,26 +261,37 @@ export function TaskForm({taskId}: TaskFormProps) {
                 disabled={isSubmitting || isPending}
                 _hover={{backgroundColor: 'fill-gray-hover'}}
                 transition="background-color 0.2s ease"
+                width={{base: '100%', md: 'auto'}}
               >
                 {isEdit ? t('task.discardChanges') : t('task.discard')}
               </Button>
-              <HStack gap={3} flexWrap="wrap">
+              <HStack
+                gap={3}
+                flexDirection={{base: 'column', md: 'row'}}
+                width={{base: '100%', md: 'auto'}}
+                alignItems="stretch"
+              >
                 {isEdit && (
                   <Button
                     type="button"
                     variant="danger"
                     onClick={() => setDeleteDialogOpen(true)}
                     disabled={isSubmitting || isPending}
+                    width={{base: '100%', md: 'auto'}}
                   >
                     <HStack gap={spacing.inline} color="fill-gray">
-                      <MdDelete size={18} />
                       <Text as="span" color="fill-gray">
                         {t('task.delete')}
                       </Text>
+                      <MdDelete size={18} />
                     </HStack>
                   </Button>
                 )}
-                <Button type="submit" disabled={isSubmitting || isPending}>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting || isPending}
+                  width={{base: '100%', md: 'auto'}}
+                >
                   <HStack gap={spacing.inline} color="text-white">
                     <Text as="span" color="text-white">
                       {isEdit ? t('task.saveChanges') : t('task.createTask')}

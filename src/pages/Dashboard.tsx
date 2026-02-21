@@ -2,7 +2,7 @@ import {Box, Flex, Heading, HStack, Text, VStack} from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
 import {Link, useNavigate} from '@tanstack/react-router';
 import {Button, Card, DashboardHeader, EmptyStateBlock, TaskRow} from '../components';
-import {spacing} from '../design-system/spacing';
+import {spacing, spacingScale} from '../design-system/spacing';
 import {useDeleteTaskMutation, useTaskListQuery, useToggleTaskMutation} from '../api/taskQueries';
 import {useAuth} from '../context/AuthContext';
 import {displayName, formatDashboardDate} from '../utils';
@@ -29,11 +29,11 @@ export function Dashboard() {
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{base: 2, sm: spacing.page}} paddingY={0}>
+      <Box flex="1" paddingX={{base: spacingScale[2], sm: spacing.page}} paddingY={0}>
         <Card
           maxWidth="1280px"
           marginX="auto"
-          padding={{base: 4, sm: spacing.card}}
+          padding={{base: spacingScale[4], sm: spacing.card}}
           display="flex"
           flexDirection="column"
         >
@@ -42,14 +42,15 @@ export function Dashboard() {
             alignItems="flex-start"
             flexWrap="wrap"
             gap={spacing.section}
-            marginBottom={{base: 4, sm: spacing.card}}
+            marginBottom={{base: spacingScale[4], sm: spacing.card}}
           >
             <Box>
               <Heading
-                size="xl"
+                as="h1"
                 color="text-primary"
+                fontSize="heading.1"
                 fontWeight="heading.1"
-                lineHeight="1.3"
+                lineHeight="32px"
                 marginBottom={spacing.inline}
               >
                 {t('dashboard.greeting', {name})}
@@ -79,22 +80,24 @@ export function Dashboard() {
               <Text color="text-secondary">{t('auth.loading')}</Text>
             </Flex>
           ) : hasTasks ? (
-            <VStack align="stretch" gap={6}>
+            <VStack align="stretch" gap={spacingScale[6]}>
               {allCompleted && <EmptyStateBlock />}
               {todoTasks.length > 0 && (
                 <Box>
                   <Heading
-                    size="xl"
+                    as="h2"
                     color="text-primary"
+                    fontSize="heading.2"
                     fontWeight="heading.2"
-                    paddingBottom={spacing.inline}
+                    lineHeight="24px"
+                    paddingBottom={spacing.inlineTight}
                     marginBottom={spacing.stack}
                     borderBottom="1px solid"
                     borderColor="fill-gray-hover"
                   >
                     {t('dashboard.todo')}
                   </Heading>
-                  <VStack align="stretch" gap={3}>
+                  <VStack align="stretch" gap={spacingScale[3]}>
                     {todoTasks.map((task) => (
                       <TaskRow
                         key={task.id}

@@ -60,7 +60,7 @@ export function ConfirmDialog({
             </Text>
           </Dialog.Body>
           <Dialog.Footer>
-            <HStack gap={3} justifyContent="flex-end">
+            <HStack gap={spacing.inlineTight} justifyContent="flex-end">
               <Button
                 variant="ghost"
                 onClick={handleCancel}

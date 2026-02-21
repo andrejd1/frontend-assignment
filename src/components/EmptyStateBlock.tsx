@@ -2,6 +2,7 @@ import {Box, Flex, Heading, Image, Text, VStack} from '@chakra-ui/react';
 import {motion} from 'framer-motion';
 import {useTranslation} from 'react-i18next';
 import logoUrl from '../assets/logoBig.svg';
+import {spacingScale} from '../design-system/spacing';
 
 export function EmptyStateBlock() {
   const {t} = useTranslation();
@@ -12,7 +13,7 @@ export function EmptyStateBlock() {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      paddingY={{base: 6, sm: 8}}
+      paddingY={{base: spacingScale[6], sm: spacingScale[8]}}
     >
       <motion.div
         style={{
@@ -25,7 +26,7 @@ export function EmptyStateBlock() {
         animate={{opacity: 1, y: 0}}
         transition={{duration: 0.4, ease: 'easeOut'}}
       >
-        <VStack gap={4} maxWidth="320px" textAlign="center">
+        <VStack gap={spacingScale[4]} maxWidth="320px" textAlign="center">
           <Box aria-hidden>
             <motion.div
               initial={{opacity: 0, scale: 0.88}}

@@ -9,3 +9,6 @@
 {"title":"Delete from edit mlvfa993","id":"ff61303a-511b-4f60-9d5a-676caed4e87d","userId":"428eba7e-7d9a-45ea-a805-cdb274221319","completed":false,"createdAt":"2026-02-20T21:49:38.575Z","_id":"wudOl5rysAE77xco"}
 {"$$deleted":true,"_id":"wudOl5rysAE77xco"}
 {"$$deleted":true,"_id":"kVQ7WgzGDxVk7CfK"}
+{"title":"Nový task","id":"d9726486-426e-4c1c-a167-f340e5c155b9","userId":"135e308d-2274-4e89-947e-0256b0b913be","completed":false,"createdAt":"2026-02-20T22:17:44.129Z","_id":"xSPYscrcqKBHtnsE"}
+{"title":"Nový task","id":"d9726486-426e-4c1c-a167-f340e5c155b9","userId":"135e308d-2274-4e89-947e-0256b0b913be","completed":true,"createdAt":"2026-02-20T22:17:44.129Z","_id":"xSPYscrcqKBHtnsE"}
+{"title":"Second task","description":"This one is optional","id":"72ba64cf-04e6-441b-a7b0-e0f4165a64e8","userId":"135e308d-2274-4e89-947e-0256b0b913be","completed":false,"createdAt":"2026-02-20T19:33:15.544Z","_id":"vaoEm8unEH2FI2kv"}
