@@ -1,7 +1,9 @@
 import type {Preview} from '@storybook/react';
 import {ChakraProvider} from '@chakra-ui/react';
+import {I18nextProvider} from 'react-i18next';
 import React from 'react';
 import theme from '../src/theme';
+import i18n from '../src/i18n/i18n';
 
 const preview: Preview = {
   parameters: {
@@ -15,7 +17,9 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ChakraProvider value={theme}>
-        <Story />
+        <I18nextProvider i18n={i18n}>
+          <Story />
+        </I18nextProvider>
       </ChakraProvider>
     ),
   ],

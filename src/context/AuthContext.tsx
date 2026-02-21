@@ -33,7 +33,7 @@ interface AuthContextValue extends AuthState {
   clearAuthError: () => void;
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({children}: {children: ReactNode}) {
   const navigate = useNavigate();

@@ -27,7 +27,7 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
       height="32px"
       borderRadius="100px"
       color="text-primary"
-      _hover={{backgroundColor: 'fill-gray'}}
+      _hover={{backgroundColor: 'fill-white'}}
       transition="background-color 0.2s ease"
       aria-label={t('task.edit')}
     >

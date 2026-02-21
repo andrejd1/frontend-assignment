@@ -1,6 +1,6 @@
-import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from '@tanstack/react-router'
+import {Box, Flex, Heading, HStack, Text, VStack} from '@chakra-ui/react';
+import {useTranslation} from 'react-i18next';
+import {Link, useNavigate} from '@tanstack/react-router';
 import {
   Button,
   Card,
@@ -8,30 +8,30 @@ import {
   EmptyStateBlock,
   TaskRow,
   VirtualTaskList,
-} from '../components'
-import { spacing, spacingScale } from '../design-system/spacing'
+} from '../components';
+import {spacing, spacingScale} from '../design-system/spacing';
 import {
   // taskKeys,
   useDeleteTaskMutation,
   useTaskListQuery,
   useToggleTaskMutation,
-} from '../api/taskQueries'
+} from '../api/taskQueries';
 // import { useQueryClient } from '@tanstack/react-query'
 // import { seedTasks } from '../api/tasks'
 // import { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
-import { displayName, formatDashboardDate } from '../utils'
-import type { Task } from '../types/task'
+import {useAuth} from '../context/AuthContext';
+import {displayName, formatDashboardDate} from '../utils';
+import type {Task} from '../types/task';
 
 export function Dashboard() {
-  const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
-  const { user, isAuthenticated } = useAuth()
-  const { data: tasks = [], isLoading: tasksLoading } = useTaskListQuery({
+  const {t, i18n} = useTranslation();
+  const navigate = useNavigate();
+  const {user, isAuthenticated} = useAuth();
+  const {data: tasks = [], isLoading: tasksLoading} = useTaskListQuery({
     enabled: isAuthenticated,
-  })
-  const toggleMutation = useToggleTaskMutation()
-  const deleteMutation = useDeleteTaskMutation()
+  });
+  const toggleMutation = useToggleTaskMutation();
+  const deleteMutation = useDeleteTaskMutation();
 
   // Testing large amount of tasks for performance testing
   // const queryClient = useQueryClient()
@@ -39,10 +39,10 @@ export function Dashboard() {
   // const [seedError, setSeedError] = useState<string | null>(null)
 
   const handleToggle = (task: Task) =>
-    toggleMutation.mutate({ id: task.id, completed: !task.completed })
-  const handleDelete = (task: Task) => deleteMutation.mutate(task.id)
+    toggleMutation.mutate({id: task.id, completed: !task.completed});
+  const handleDelete = (task: Task) => deleteMutation.mutate(task.id);
   const handleEdit = (task: Task) =>
-    navigate({ to: '/tasks/$taskId/edit', params: { taskId: task.id } })
+    navigate({to: '/tasks/$taskId/edit', params: {taskId: task.id}});
 
   // Testing large amount of tasks for performance testing
   // const handleSeed = async () => {
@@ -59,28 +59,28 @@ export function Dashboard() {
   //   }
   // }
 
-  const name = user ? displayName(user.username) : ''
-  const dateString = formatDashboardDate(new Date(), i18n.language)
+  const name = user ? displayName(user.username) : '';
+  const dateString = formatDashboardDate(new Date(), i18n.language);
 
-  const todoTasks = tasks.filter((task) => !task.completed)
-  const completedTasks = tasks.filter((task) => task.completed)
-  const hasTasks = tasks.length > 0
-  const allCompleted = hasTasks && todoTasks.length === 0
+  const todoTasks = tasks.filter((task) => !task.completed);
+  const completedTasks = tasks.filter((task) => task.completed);
+  const hasTasks = tasks.length > 0;
+  const allCompleted = hasTasks && todoTasks.length === 0;
 
   /** Use virtualization only for large lists to keep compact layout when few tasks. */
-  const useVirtualList = (list: Task[]) => list.length > 30
-  const virtualizeTodo = useVirtualList(todoTasks)
-  const virtualizeCompleted = useVirtualList(completedTasks)
+  const useVirtualList = (list: Task[]) => list.length > 30;
+  const virtualizeTodo = useVirtualList(todoTasks);
+  const virtualizeCompleted = useVirtualList(completedTasks);
 
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column" backgroundColor="fill-gray">
       <DashboardHeader />
 
-      <Box flex="1" paddingX={{ base: spacingScale[2], sm: spacing.page }} paddingY={0}>
+      <Box flex="1" paddingX={{base: spacingScale[2], sm: spacing.page}} paddingY={0}>
         <Card
           maxWidth="1280px"
           marginX="auto"
-          padding={{ base: spacingScale[4], sm: spacing.card }}
+          padding={{base: spacingScale[4], sm: spacing.card}}
           display="flex"
           flexDirection="column"
         >
@@ -89,7 +89,7 @@ export function Dashboard() {
             alignItems="flex-start"
             flexWrap="wrap"
             gap={spacing.section}
-            marginBottom={{ base: spacingScale[4], sm: spacing.card }}
+            marginBottom={{base: spacingScale[4], sm: spacing.card}}
           >
             <Box>
               <Heading
@@ -100,7 +100,7 @@ export function Dashboard() {
                 lineHeight="32px"
                 marginBottom={spacing.inline}
               >
-                {t('dashboard.greeting', { name })}
+                {t('dashboard.greeting', {name})}
               </Heading>
               <Text fontSize="text.base" color="text-tertiary">
                 {dateString}
@@ -231,5 +231,5 @@ export function Dashboard() {
         </Card>
       </Box>
     </Box>
-  )
+  );
 }
