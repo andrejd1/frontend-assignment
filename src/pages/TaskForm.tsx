@@ -1,7 +1,7 @@
 import {Box, Flex, Heading, HStack, Input, Text, Textarea, VStack} from '@chakra-ui/react';
 import {RiArrowLeftLine, RiCheckLine} from 'react-icons/ri';
 import {MdDelete} from 'react-icons/md';
-import {Link, useNavigate} from '@tanstack/react-router';
+import {Link, useBlocker, useNavigate} from '@tanstack/react-router';
 import {useTranslation} from 'react-i18next';
 import {Controller, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -37,7 +37,7 @@ export function TaskForm({taskId}: TaskFormProps) {
     control,
     handleSubmit,
     reset,
-    formState: {isSubmitting},
+    formState: {isSubmitting, isDirty},
   } = useForm<NewTaskFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {title: '', description: ''},
@@ -49,6 +49,12 @@ export function TaskForm({taskId}: TaskFormProps) {
       reset({title: task.title, description: task.description});
     }
   }, [task, reset]);
+
+  const {proceed, reset: resetBlocker, status: blockerStatus} = useBlocker({
+    shouldBlockFn: () => isDirty,
+    withResolver: true,
+    enableBeforeUnload: isDirty,
+  });
 
   useEffect(() => {
     if (isEdit && taskError) {
@@ -289,7 +295,11 @@ export function TaskForm({taskId}: TaskFormProps) {
                 )}
                 <Button
                   type="submit"
-                  disabled={isSubmitting || isPending}
+                  disabled={
+                    isSubmitting ||
+                    isPending ||
+                    (isEdit && !isDirty)
+                  }
                   width={{base: '100%', md: 'auto'}}
                 >
                   <HStack gap={spacing.inline} color="text-white">
@@ -304,6 +314,19 @@ export function TaskForm({taskId}: TaskFormProps) {
           </form>
         </Card>
       </Box>
+      {blockerStatus === 'blocked' && (
+        <ConfirmDialog
+          open
+          onOpenChange={(open) => {
+            if (!open) resetBlocker();
+          }}
+          title={t('task.leaveConfirmTitle')}
+          description={t('task.leaveConfirmMessage')}
+          confirmLabel={t('task.leave')}
+          cancelLabel={t('dialog.cancel')}
+          onConfirm={proceed}
+        />
+      )}
       {isEdit && (
         <ConfirmDialog
           open={deleteDialogOpen}

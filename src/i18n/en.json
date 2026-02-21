@@ -63,7 +63,10 @@
     "deleteConfirmTitle": "Delete task?",
     "deleteConfirmMessage": "This action cannot be undone.",
     "discardChanges": "Discard changes",
-    "saveChanges": "Save changes"
+    "saveChanges": "Save changes",
+    "leaveConfirmTitle": "Leave page?",
+    "leaveConfirmMessage": "You have unsaved changes. Are you sure you want to leave?",
+    "leave": "Leave"
   },
   "dialog": {
     "cancel": "Cancel"
