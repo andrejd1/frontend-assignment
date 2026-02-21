@@ -68,12 +68,33 @@ describe('Task management', () => {
     cy.contains(toDeleteTitle).should('not.exist');
   });
 
-  it('deletes a task via menu', () => {
-    const updatedTitle = `${taskTitle} (edited)`;
-    cy.contains(updatedTitle, {timeout: 10000}).should('be.visible');
-    cy.contains(updatedTitle).parent().parent().find('[aria-label="Edit"]').click();
-    cy.contains('Delete').click();
-    cy.get('[role="alertdialog"]').should('be.visible').contains('button', 'Delete').click();
-    cy.contains(updatedTitle).should('not.exist');
+  it('deletes a task via menu and stays on dashboard', () => {
+    const toDeleteViaMenu = `Delete via menu ${uniqueId}`;
+    cy.contains('Add task').click();
+    cy.get('#new-task-title', {timeout: 10000}).type(toDeleteViaMenu);
+    cy.contains('Create task').click();
+    cy.contains(toDeleteViaMenu, {timeout: 10000}).should('be.visible');
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
+    cy.contains(toDeleteViaMenu).parent().parent().find('[aria-label="Edit"]').click();
+    cy.get('[role="menu"]').should('be.visible').contains('button', 'Delete').click();
+    cy.get('[role="alertdialog"]', {timeout: 10000}).should('be.visible');
+    cy.get('[role="alertdialog"]').contains('button', 'Delete').click();
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
+    cy.contains(toDeleteViaMenu).should('not.exist');
+  });
+
+  it('shows leave confirmation when discarding with unsaved changes', () => {
+    cy.contains(taskTitle, {timeout: 10000}).should('be.visible');
+    cy.contains(taskTitle).click();
+    cy.url().should('match', /\/tasks\/[^/]+\/edit/);
+    cy.get('#new-task-title').clear().type('Changed title');
+    cy.contains('Discard changes').click();
+    cy.get('[role="alertdialog"]')
+      .should('be.visible')
+      .contains('Leave page?')
+      .should('be.visible');
+    cy.get('[role="alertdialog"]').contains('button', 'Cancel').click();
+    cy.url().should('match', /\/tasks\/[^/]+\/edit/);
+    cy.get('#new-task-title').should('have.value', 'Changed title');
   });
 });

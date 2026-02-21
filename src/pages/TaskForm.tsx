@@ -50,7 +50,11 @@ export function TaskForm({taskId}: TaskFormProps) {
     }
   }, [task, reset]);
 
-  const {proceed, reset: resetBlocker, status: blockerStatus} = useBlocker({
+  const {
+    proceed,
+    reset: resetBlocker,
+    status: blockerStatus,
+  } = useBlocker({
     shouldBlockFn: () => isDirty,
     withResolver: true,
     enableBeforeUnload: isDirty,
@@ -58,7 +62,7 @@ export function TaskForm({taskId}: TaskFormProps) {
 
   useEffect(() => {
     if (isEdit && taskError) {
-      navigate({to: '/'});
+      navigate({to: '/', ignoreBlocker: true});
     }
   }, [isEdit, taskError, navigate]);
 
@@ -74,7 +78,7 @@ export function TaskForm({taskId}: TaskFormProps) {
         description: data.description,
       });
     }
-    navigate({to: '/'});
+    navigate({to: '/', ignoreBlocker: true});
   };
 
   const onDiscard = () => {
@@ -84,7 +88,7 @@ export function TaskForm({taskId}: TaskFormProps) {
   const onDelete = () => {
     if (taskId) {
       deleteTaskMutation.mutate(taskId, {
-        onSuccess: () => navigate({to: '/'}),
+        onSuccess: () => navigate({to: '/', ignoreBlocker: true}),
       });
     }
   };
@@ -295,11 +299,7 @@ export function TaskForm({taskId}: TaskFormProps) {
                 )}
                 <Button
                   type="submit"
-                  disabled={
-                    isSubmitting ||
-                    isPending ||
-                    (isEdit && !isDirty)
-                  }
+                  disabled={isSubmitting || isPending || (isEdit && !isDirty)}
                   width={{base: '100%', md: 'auto'}}
                 >
                   <HStack gap={spacing.inline} color="text-white">

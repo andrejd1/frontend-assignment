@@ -59,11 +59,7 @@ export const WithCloseCallback: Story = {
     placement: 'bottom-start',
   },
   render: (args) => (
-    <PopupMenu
-      {...args}
-      trigger={<TriggerButton />}
-      onClose={() => console.log('Menu closed')}
-    >
+    <PopupMenu {...args} trigger={<TriggerButton />} onClose={() => console.log('Menu closed')}>
       {(close) => (
         <>
           <MenuButton onClick={() => close()}>Item 1</MenuButton>

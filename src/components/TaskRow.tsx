@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Box, Flex, HStack, Heading, Text} from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
 import {RiPencilFill} from 'react-icons/ri';
@@ -15,9 +15,32 @@ export interface TaskRowProps {
   onEdit: () => void;
 }
 
+const DELETE_CLICK_IGNORE_MS = 300;
+
 export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
   const {t} = useTranslation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const ignoreRowClickRef = useRef(false);
+
+  const openDeleteDialog = () => {
+    ignoreRowClickRef.current = true;
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogOpenChange = (open: boolean) => {
+    setDeleteDialogOpen(open);
+    if (!open) {
+      window.setTimeout(() => {
+        ignoreRowClickRef.current = false;
+      }, DELETE_CLICK_IGNORE_MS);
+    }
+  };
+
+  const handleRowClick = () => {
+    if (ignoreRowClickRef.current) return;
+    onEdit();
+  };
+
   const threeDotsTrigger = (
     <Box
       display="flex"
@@ -49,7 +72,7 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
       }}
       transition="background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease"
-      onClick={() => onEdit()}
+      onClick={handleRowClick}
     >
       <Box
         marginTop={spacing.label}
@@ -105,7 +128,7 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
               <MenuButton
                 onClick={() => {
                   close();
-                  setDeleteDialogOpen(true);
+                  openDeleteDialog();
                 }}
                 color="text-danger"
                 _hover={{backgroundColor: 'fill-gray', color: 'text-danger'}}
@@ -123,7 +146,7 @@ export function TaskRow({task, onToggle, onDelete, onEdit}: TaskRowProps) {
       </Box>
       <ConfirmDialog
         open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
+        onOpenChange={handleDeleteDialogOpenChange}
         title={t('task.deleteConfirmTitle')}
         description={t('task.deleteConfirmMessage')}
         confirmLabel={t('task.delete')}
