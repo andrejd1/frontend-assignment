@@ -63,3 +63,11 @@ export async function setTaskCompleted(id: string, completed: boolean): Promise<
   const path = completed ? `/api/todo/${id}/complete` : `/api/todo/${id}/incomplete`;
   await apiClient.post(path);
 }
+
+/** Seed mock todos for performance testing. Returns number of created tasks. */
+export async function seedTasks(count: number = 3000): Promise<{created: number}> {
+  const {data} = await apiClient.post<{created: number}>(
+    `/api/todo/seed?count=${Math.min(Math.max(1, count), 10000)}`
+  );
+  return data;
+}
